@@ -14,13 +14,13 @@ function BurgerIngredients(props) {
         <div className={styles.content}>
             <h2 className={`${styles.title} text text_type_main-large pl-5 mt-10 mb-5`}>Соберите бургер</h2>
             <div className={styles.tabs}>
-                <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                     Булки
                 </Tab>
-                <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
                     Соусы
                 </Tab>
-                <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
                     Начинки
                 </Tab>
             </div>
