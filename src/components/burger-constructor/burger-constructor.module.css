@@ -1,0 +1,47 @@
+.burgerConstructor {
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredient {
+    display: flex;
+    max-width: 568px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.variableIngredientsList {
+    overflow-y: auto;
+    /*max-height: 25vh;*/
+}
+
+.ingredientsList {
+    display: flex;
+    flex-direction: column;
+    max-height: 770px;
+    /*removing default <ul> styling*/
+    padding-inline-start: 0px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+.ingredientImage {
+    max-width: 80px;
+    max-height: 40px;
+}
+
+.ingredientName {
+    max-height: 48px;
+    max-width: 254px;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}

@@ -1,7 +1,15 @@
 .app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #131316;
-  color: #f2f2f3;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    max-width: 1240px;
+    background-color: #131316;
+    color: #f2f2f3;
+}
+
+.builderArea {
+    display: flex;
+    column-gap: 40px;
+    justify-content: space-between;
+    max-height: 1000px;
 }
