@@ -4,7 +4,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-function App(props) {
+function App() {
     return (
         <div className={`${styles.app} pt-10 pb-10`}>
             <header>
