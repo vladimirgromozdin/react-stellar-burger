@@ -1,11 +1,40 @@
-import React from "react";
-import styles from "../burger-constructor/burger-constructor.module.css";
+import React, {useEffect, useState} from "react";
 import {DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import styles from "../burger-constructor/burger-constructor.module.css";
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOrderClick = () => {
+        setIsModalOpen(true);
+    }
+
+    const handleModalClose = () => {
+        setIsModalOpen(false)
+    }
+
+    useEffect(() => {
+        const handleEscPress = (event) => {
+            if (event.key === 'Escape') {
+                handleModalClose()
+            }
+        };
+
+        if (isModalOpen) {
+            document.addEventListener('keydown', handleEscPress);
+        } else {
+            document.removeEventListener('keydown', handleEscPress);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscPress);
+        };
+    }, [isModalOpen]);
+
     return (
         <div className={`${styles.burgerConstructor} pt-25`}>
             <ul className={styles.ingredientsList}>
@@ -165,7 +194,13 @@ function BurgerConstructor(props) {
                     <h4 className="text text_type_digits-medium pr-2">610</h4>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button htmlType={"button"} type={"primary"} size={"medium"}>Оформить заказ</Button>
+                <Button htmlType={"button"} type={"primary"} size={"medium"} onClick={handleOrderClick}>Оформить
+                    заказ</Button>
+                {isModalOpen && (
+                    <Modal onClose={handleModalClose}>
+                        <OrderDetails onClose={handleModalClose} />
+                    </Modal>
+                )}
             </div>
         </div>
     );
