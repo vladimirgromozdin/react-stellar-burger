@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "../ingredient-details/ingredient-details.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 import {individualIngredientPropType} from "../../utils/prop-types";
 
 function IngredientDetails(props) {
-    const { ingredient, onClose } = props;
+    const {ingredient, onClose} = props;
 
     const handleModalClose = () => {
         onClose();
@@ -40,6 +41,9 @@ function IngredientDetails(props) {
     )
 }
 
-IngredientDetails.propTypes = individualIngredientPropType;
+IngredientDetails.propTypes = {
+    ingredient: PropTypes.shape(individualIngredientPropType).isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 
 export default IngredientDetails

@@ -9,6 +9,9 @@ const api = 'https://norma.nomoreparties.space/api/ingredients';
 
 function App() {
     const [ingredients, setIngredients] = useState([]);
+    const checkResponse = (res) => {
+        return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+    };
 
     // Fetch data on component mount
     useEffect(() => {
@@ -16,12 +19,9 @@ function App() {
     }, [])
 
     const getIngredients = async () => {
-        fetch(api)
-            .then(res => res.json())
-            .then(res => {
-                setIngredients(res.data)
-            })
-            .catch(reject => console.log(`Error ${reject.status}`))
+        fetch(api).then(checkResponse).then(res => {
+            setIngredients(res.data)
+        })
     }
 
     return (
