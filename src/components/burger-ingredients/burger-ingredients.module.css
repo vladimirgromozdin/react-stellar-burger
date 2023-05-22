@@ -37,6 +37,7 @@
     align-items: center;
     max-width: 240px;
     box-sizing: content-box;
+    cursor: pointer;
 }
 
 .ingredientName {
