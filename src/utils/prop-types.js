@@ -15,12 +15,6 @@ export const individualIngredientPropType = {
         __v: PropTypes.number.isRequired,
 }
 
-export const ingredientPropType = {
-        ingredients: PropTypes.arrayOf(
-            PropTypes.shape(individualIngredientPropType)
-        ).isRequired,
-};
-
 
 export const modalPropType = {
         onClose: PropTypes.func.isRequired,

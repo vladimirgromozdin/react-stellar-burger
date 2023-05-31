@@ -1,14 +1,11 @@
 // TODO Make every ingredient a separate component for proper click behavior
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-
 import {individualIngredientPropType, ingredientPropType} from "../../utils/prop-types";
-
 import styles from "../burger-ingredients/burger-ingredients.module.css";
-
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import PropTypes from "prop-types";
