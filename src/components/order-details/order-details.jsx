@@ -1,16 +1,15 @@
-import React, {useContext} from "react";
+import React from "react";
 import styles from "../order-details/order-details.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import doneIconPath from "../../images/done.png"
-import {OrderContext} from "../../utils/orderContext";
 import {orderDetailsPropType} from "../../utils/prop-types";
+import {useSelector} from "react-redux";
 
 function OrderDetails({onClose}) {
+    const orderId = useSelector(store => store.orderDetails.orderId)
     const handleModalClose = () => {
         onClose()
     }
-
-    const orderId = useContext(OrderContext)
 
     return (
         <div className={`${styles.content} pt-10 pr-10 pl-10 pb-4`}>

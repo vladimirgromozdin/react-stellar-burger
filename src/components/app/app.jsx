@@ -3,27 +3,20 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from "./app.module.css";
-import {ConstructorContext} from "../../utils/constructorContext";
-
-export const api = 'https://norma.nomoreparties.space/api';
-export const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
+import {useSelector, useDispatch} from "react-redux";
+import {getIngredients} from "../../services/actions/burgerIngredients";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 function App() {
+    const dispatch = useDispatch()
+    const burgerIngredients = useSelector(state => state.burgerIngredients.ingredients)
 
-    // Fetch data on component mount
     useEffect(() => {
-        getIngredients()
-    }, [])
-    const [ingredients, setIngredients] = useState([]);
+        // Dispatch the action to fetch ingredients when the component mounts
+        dispatch(getIngredients());
+    }, [dispatch]);
 
-
-    const getIngredients = async () => {
-        fetch(`${api}/ingredients`).then(checkResponse).then(res => {
-            setIngredients(res.data)
-        })
-    }
 
 
     return (<div className={`${styles.app} pt-10 pb-10`}>
@@ -33,14 +26,14 @@ function App() {
         </header>
         <main>
             <div className={styles.builderArea}>
-                <section>
-                    <BurgerIngredients ingredients={ingredients}/>
-                </section>
-                <section>
-                    <ConstructorContext.Provider value={ingredients}>
+                <DndProvider backend={HTML5Backend}>
+                    <section>
+                        <BurgerIngredients/>
+                    </section>
+                    <section>
                         <BurgerConstructor/>
-                    </ConstructorContext.Provider>
-                </section>
+                    </section>
+                </DndProvider>
             </div>
             <div id="modalRender"></div>
         </main>
