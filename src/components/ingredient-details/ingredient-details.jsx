@@ -1,10 +1,8 @@
 import React from "react";
 import styles from "../ingredient-details/ingredient-details.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {saveCurrentIngredientDetails} from "../../services/actions/ingredientDetails";
 import PropTypes from "prop-types";
-import {individualIngredientPropType} from "../../utils/prop-types";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 function IngredientDetails(props) {
     const {onClose} = props;

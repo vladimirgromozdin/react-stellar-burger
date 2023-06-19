@@ -1,29 +1,40 @@
-import {useDrag, useDrop} from "react-dnd";
 import styles from "../burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {removeIngredientFromConstructor, reorderIngredient} from "../../../services/actions/burgerConstructor";
 import {useDispatch, useSelector} from "react-redux";
+import {useDrag, useDrop} from "react-dnd";
 
-function DraggableIngredient({ingredient, index}) {
-    // Use removeIcon ref because it matches the draggable element
+function DraggableIngredient({ingredient}) {
+    const [newIndex, setNewIndex] = useState(null);
     const dispatch = useDispatch();
     const constructorIngredients = useSelector(store => store.burgerConstructor.constructorIngredients)
+    const index = constructorIngredients.findIndex(ing => ing.uniqueId === ingredient.uniqueId);
     // Add event listener to the remove constructor ingredient button
     const removeIconRef = useRef(null)
+
+
+    // TODO Beautify drag and drop in the next iteration
     const [, drag] = useDrag({
-        type: 'ingredient',
-        item: {ingredient, index}
-    });
-    const [, drop] = useDrop({
+            type: 'ingredient',
+            item: {type: 'ingredient', index}
+        }
+    )
+
+    const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        hover(item) {
-            if (item.index !== index) {
-                dispatch(reorderIngredient(item.index, index));
-                item.index = index;
+        hover(item, monitor) {
+            setNewIndex(index);
+        },
+        drop(item, monitor) {
+            const {index} = item;
+            if (newIndex !== null) {
+                dispatch(reorderIngredient(index, newIndex));
             }
         }
-    });
+    })
+    drag(dropTarget(removeIconRef));
+
     useEffect(() => {
         const handleRemoveClick = (event) => {
             const uniqueId = event.target.closest('[data-unique-id]').dataset.uniqueId
@@ -31,7 +42,6 @@ function DraggableIngredient({ingredient, index}) {
         };
 
         // TODO Look up how it actually works
-        drag(removeIconRef);
         const wrapper = removeIconRef.current;
         const removeIcon = wrapper && wrapper.querySelector('.constructor-element__action')
         if (removeIcon) {

@@ -1,12 +1,10 @@
 // TODO Make every ingredient a separate component for proper click behavior
 import React, {useEffect, useRef, useState} from "react";
 
-import {Counter, CurrencyIcon, Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 import Ingredient from "../burger-ingredients/ingredient/ingredient"
-import {addIngredientToConstructor} from "../../services/actions/burgerIngredients";
-import {useDispatch, useSelector} from "react-redux";
-import {saveCurrentIngredientDetails} from "../../services/actions/ingredientDetails";
+import {useSelector} from "react-redux";
 
 function BurgerIngredients() {
     const [current, setCurrent] = useState('bun')
@@ -15,7 +13,6 @@ function BurgerIngredients() {
     const bunTabRef = useRef(null)
     const sauceTabRef = useRef(null);
     const mainTabRef = useRef(null);
-
 
 
     useEffect(() => {
@@ -39,26 +36,23 @@ function BurgerIngredients() {
         }
     };
 
+    const refs = {
+        bun: bunTabRef,
+        sauce: sauceTabRef,
+        main: mainTabRef
+    };
+
     const handleTabClick = (section) => {
         setCurrent(section);
-        switch (section) {
-            case 'bun':
-                bunTabRef.current.scrollIntoView({behavior: 'smooth'});
-                break;
-            case 'sauce':
-                sauceTabRef.current.scrollIntoView({behavior: 'smooth'});
-                break;
-            case 'main':
-                mainTabRef.current.scrollIntoView({behavior: 'smooth'});
-                break;
-            default:
-                break;
+        const ref = refs[section];
+        if (ref && ref.current) {
+            ref.current.scrollIntoView({behavior: 'smooth'});
         }
     };
 
 
     return (
-        <div className={styles.content}>
+        <section className={styles.content}>
             <h2 className={`${styles.title} text text_type_main-large pl-5 mt-10 mb-5`}>Соберите бургер</h2>
             <div className={styles.tabs}>
                 <Tab value="bun" active={current === 'bun'} onClick={() => handleTabClick('bun')}>
@@ -105,7 +99,7 @@ function BurgerIngredients() {
                 </ul>
 
             </div>
-        </div>
+        </section>
     );
 }
 

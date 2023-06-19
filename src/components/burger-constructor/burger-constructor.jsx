@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -13,40 +13,43 @@ import DraggableIngredient from "./draggable-ingredient/draggableIngredient";
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const moveIngredient = useCallback(
+        (dragIndex, hoverIndex) => {
+            dispatch(reorderIngredient(dragIndex, hoverIndex));
+        },
+        [dispatch]
+    );
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        hover: (item, monitor) => {
-            const delta = monitor.getDifferenceFromInitialOffset();
-            // 80 is a height of an ingredient
-            const index = Math.round(delta.y / 80);
-            setHoveredIndex(index < 0 ? 0 : index);
-        },
         drop(item, monitor) {
-            onDropHandler(item, hoveredIndex);
+            onDropHandler(item);
         }
     })
+
     const onDropHandler = (item) => {
-        const { ingredient, index } = item;
-        if (index !== undefined) {
-            // Reorder the existing ingredient
-            dispatch(reorderIngredient(index, /* target index */));
-        } else {
+        const {ingredient} = item;
+        const isIngredientPresent = constructorIngredients.find(ing => ing.uniqueId === ingredient.uniqueId);
+        if (!isIngredientPresent) {
             // Add the new ingredient to the constructor
             dispatch(addIngredientToConstructor(ingredient));
         }
-    };
-    const ingredientIds = useSelector(store =>
-        store.burgerConstructor.constructorIngredients.map(ingredient => ingredient._id));
-    const ingredientsList = useSelector(store => store.burgerConstructor.constructorIngredients)
-    const ingredientsTotal = useSelector(store => {
-        return ingredientsList.length > 0
-            ? ingredientsList.reduce((acc, currentItem) => acc + currentItem.price, 0)
+    }
+
+    const constructorIngredients = useSelector(store => store.burgerConstructor.constructorIngredients)
+
+    const ingredientsIds = useMemo(() => {
+        return constructorIngredients.map(ingredient => ingredient._id)
+    }, [constructorIngredients])
+
+    const ingredientsTotal = useMemo(() => {
+        return constructorIngredients.length > 0
+            ? constructorIngredients.reduce((acc, currentItem) => acc + currentItem.price, 0)
             : 0;
-    });
+    }, [constructorIngredients])
+
     const handleSendOrder = useCallback(() => {
-        dispatch(getOrderDetails(ingredientIds));
-    }, [dispatch, ingredientIds])
+        dispatch(getOrderDetails(ingredientsIds));
+    }, [dispatch, ingredientsIds])
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOrderClick = () => {
@@ -60,13 +63,13 @@ function BurgerConstructor() {
     };
 
     // Check if ingredientsList is defined and not empty
-    const hasIngredients = ingredientsList && ingredientsList.length > 0;
+    const hasIngredients = constructorIngredients && constructorIngredients.length > 0;
     // Finding the bun in the state
-    const bun = ingredientsList.find(ingredient => ingredient.type === 'bun');
+    const bun = constructorIngredients.find(ingredient => ingredient.type === 'bun');
     // Get the total cost of ingredients
 
 
-    return (<div ref={dropTarget} className={`${styles.burgerConstructor} pt-25`}>
+    return (<section ref={dropTarget} className={`${styles.burgerConstructor} pt-25`}>
         <ul className={styles.ingredientsList}>
             {hasIngredients && bun && (<>
                 <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
@@ -83,26 +86,13 @@ function BurgerConstructor() {
             <div
                 className={`${styles.variableIngredientsList} custom-scroll removable-ingredients`}
             >
-                {ingredientsList.filter((ingredient) => ingredient.type !== 'bun').map((ingredient, index) => {
+                {constructorIngredients.filter((ingredient) => ingredient.type !== 'bun').map((ingredient, index) => {
                     return (<DraggableIngredient
                         key={ingredient.uniqueId}
+                        id={ingredient._id}
                         ingredient={ingredient}
-                        index={index}
+                        moveIngredient={moveIngredient}
                     />)
-
-                    // return (<li ref={removeIconRef}
-                    //             className={`${styles.ingredient} removable-ingredient pt-2 pr-2 pb-2 pl-4`}
-                    //             key={ingredient.uniqueId}
-                    //             data-unique-id={ingredient.uniqueId}>
-                    //     <div className="pr-2">
-                    //         <DragIcon type={"primary"}/>
-                    //     </div>
-                    //     <ConstructorElement
-                    //         text={ingredient.name}
-                    //         price={ingredient.price}
-                    //         thumbnail={ingredient.image}
-                    //     />
-                    // </li>);
                 })}
             </div>
 
@@ -136,7 +126,7 @@ function BurgerConstructor() {
                     onClose={handleModalClose}/>
             </Modal>)}
         </div>
-    </div>);
+    </section>);
 }
 
 

@@ -53,7 +53,8 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             const [movedItem] = newState.splice(oldIndex, 1);
             newState.splice(newIndex, 0, movedItem);
             return {
-                ...state, constructorIngredients: newState
+                ...state,
+                constructorIngredients: newState
             }
         default:
             return state

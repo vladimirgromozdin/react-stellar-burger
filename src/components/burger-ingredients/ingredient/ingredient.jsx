@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Modal from "../../modal/modal";
 import IngredientDetails from "../../ingredient-details/ingredient-details";
 import {useDrag} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 function Ingredient({ingredient}) {
     const dispatch = useDispatch();
