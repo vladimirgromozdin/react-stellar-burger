@@ -1,151 +1,133 @@
-import React, {useEffect, useState} from "react";
-import {DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useCallback, useMemo, useState} from "react";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "../burger-constructor/burger-constructor.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {getOrderDetails} from "../../services/actions/orderDetails";
+import {useDrop} from "react-dnd";
+import {addIngredientToConstructor} from "../../services/actions/burgerIngredients";
+import {reorderIngredient} from "../../services/actions/burgerConstructor";
+import DraggableIngredient from "./draggable-ingredient/draggableIngredient";
+
 
 function BurgerConstructor() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleOrderClick = () => {
-        setIsModalOpen(true);
+    const dispatch = useDispatch();
+    const moveIngredient = useCallback(
+        (dragIndex, hoverIndex) => {
+            dispatch(reorderIngredient(dragIndex, hoverIndex));
+        },
+        [dispatch]
+    );
+    const [, dropTarget] = useDrop({
+        accept: 'ingredient',
+        drop(item, monitor) {
+            onDropHandler(item);
+        }
+    })
+
+    const onDropHandler = (item) => {
+        const {ingredient} = item;
+        const isIngredientPresent = constructorIngredients.find(ing => ing.uniqueId === ingredient.uniqueId);
+        if (!isIngredientPresent) {
+            // Add the new ingredient to the constructor
+            dispatch(addIngredientToConstructor(ingredient));
+        }
     }
+
+    const constructorIngredients = useSelector(store => store.burgerConstructor.constructorIngredients)
+
+    const ingredientsIds = useMemo(() => {
+        return constructorIngredients.map(ingredient => ingredient._id)
+    }, [constructorIngredients])
+
+    const ingredientsTotal = useMemo(() => {
+        return constructorIngredients.length > 0
+            ? constructorIngredients.reduce((acc, currentItem) => acc + currentItem.price, 0)
+            : 0;
+    }, [constructorIngredients])
+
+    const handleSendOrder = useCallback(() => {
+        dispatch(getOrderDetails(ingredientsIds));
+    }, [dispatch, ingredientsIds])
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOrderClick = () => {
+        handleSendOrder()
+        setIsModalOpen(true);
+    };
+
 
     const handleModalClose = () => {
-        setIsModalOpen(false)
-    }
+        setIsModalOpen(false);
+    };
 
-    return (
-        <div className={`${styles.burgerConstructor} pt-25`}>
-            <ul className={styles.ingredientsList}>
+    // Check if ingredientsList is defined and not empty
+    const hasIngredients = constructorIngredients && constructorIngredients.length > 0;
+    // Finding the bun in the state
+    const bun = constructorIngredients.find(ingredient => ingredient.type === 'bun');
+    // Get the total cost of ingredients
+
+
+    return (<section ref={dropTarget} className={`${styles.burgerConstructor} pt-25`}>
+        <ul className={styles.ingredientsList}>
+            {hasIngredients && bun && (<>
                 <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                        text={`${bun.name} (верх)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                     />
                 </li>
-                <div className={`${styles.variableIngredientsList} custom-scroll`}>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Говяжий метеорит (отбивная)"
-                            price={3000}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Биокотлета из марсианской Магнолии"
-                            price={424}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Мясо бессмертных моллюсков Protostomia"
-                            price={1337}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-02.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Говяжий метеорит (отбивная)"
-                            price={3000}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Биокотлета из марсианской Магнолии"
-                            price={424}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Краторная буСоус Spicy-X"
-                            price={90}
-                            thumbnail="https://code.s3.yandex.net/react/code/sauce-02.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Говяжий метеорит (отбивная)"
-                            price={3000}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Биокотлета из марсианской Магнолии"
-                            price={424}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                        />
-                    </li>
-                    <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
-                        <div className="pr-2">
-                            <DragIcon type={"primary"}/>
-                        </div>
-                        <ConstructorElement
-                            text="Мясо бессмертных моллюсков Protostomia"
-                            price={1337}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-02.png"
-                        />
-                    </li>
-                </div>
+            </>)}
+
+            <div
+                className={`${styles.variableIngredientsList} custom-scroll removable-ingredients`}
+            >
+                {constructorIngredients.filter((ingredient) => ingredient.type !== 'bun').map((ingredient, index) => {
+                    return (<DraggableIngredient
+                        key={ingredient.uniqueId}
+                        id={ingredient._id}
+                        ingredient={ingredient}
+                        moveIngredient={moveIngredient}
+                    />)
+                })}
+            </div>
+
+            {hasIngredients && bun && (<>
                 <li className={`${styles.ingredient} pt-2 pr-2 pb-2 pl-4`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                        text={`${bun.name} (низ)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                     />
                 </li>
-            </ul>
-            <div className={`${styles.total} pt-8`}>
-                <div className={`${styles.price} pr-10`}>
-                    <h4 className="text text_type_digits-medium pr-2">610</h4>
-                    <CurrencyIcon type={"primary"}/>
-                </div>
-                <Button htmlType={"button"} type={"primary"} size={"medium"} onClick={handleOrderClick}>Оформить
-                    заказ</Button>
-                {isModalOpen && (
-                    <Modal onClose={handleModalClose}>
-                        <OrderDetails onClose={handleModalClose} />
-                    </Modal>
-                )}
+            </>)}
+        </ul>
+        <div className={`${styles.total} pt-8`}>
+            <div className={`${styles.price} pr-10`}>
+                <h4 className="text text_type_digits-medium pr-2">{ingredientsTotal}</h4>
+                <CurrencyIcon type={"primary"}/>
             </div>
+            <Button
+                htmlType={"button"}
+                type={"primary"}
+                size={"medium"}
+                onClick={handleOrderClick}
+            >
+                Оформить заказ
+            </Button>
+            {isModalOpen && (<Modal onClose={handleModalClose}>
+                <OrderDetails
+                    onClose={handleModalClose}/>
+            </Modal>)}
         </div>
-    );
+    </section>);
 }
+
 
 export default BurgerConstructor;

@@ -2,11 +2,11 @@ import React from "react";
 import styles from "../ingredient-details/ingredient-details.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import {individualIngredientPropType} from "../../utils/prop-types";
+import {useSelector} from "react-redux";
 
 function IngredientDetails(props) {
-    const {ingredient, onClose} = props;
-
+    const {onClose} = props;
+    const ingredient = useSelector(store => store.ingredientDetails.ingredient)
     const handleModalClose = () => {
         onClose();
     }
@@ -17,7 +17,7 @@ function IngredientDetails(props) {
                 <CloseIcon type={"primary"} onClick={handleModalClose}></CloseIcon>
             </div>
             <h3 className={`${styles.headline} text text_type_main-large pt-10`}>Детали ингредиента</h3>
-            <img src={ingredient.image_large} className="pb-4"/>
+            <img src={ingredient.image_large} className="pb-4" alt={ingredient.name}/>
             <h4 className="text text_type_main-medium pb-8">{ingredient.name}</h4>
             <ul className={styles.nutritionDataWrapper}>
                 <li className={styles.nutritionData}>
@@ -42,7 +42,6 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-    ingredient: PropTypes.shape(individualIngredientPropType).isRequired,
     onClose: PropTypes.func.isRequired,
 };
 

@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import styles from "../order-details/order-details.module.css";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import doneIconPath from "../../images/done.png"
 import {orderDetailsPropType} from "../../utils/prop-types";
+import {useSelector} from "react-redux";
 
 function OrderDetails({onClose}) {
+    const orderId = useSelector(store => store.orderDetails.orderId)
     const handleModalClose = () => {
         onClose()
     }
@@ -14,7 +16,7 @@ function OrderDetails({onClose}) {
             <div className={styles.closeIcon}>
                 <CloseIcon onClick={handleModalClose} type={"primary"}></CloseIcon>
             </div>
-            <h4 className="text text_type_digits-large pt-30 pb-8">034536</h4>
+            <h4 className="text text_type_digits-large pt-30 pb-8">{orderId}</h4>
             <p className="text text_type_main-medium pb-15">идентификатор заказа</p>
             <img src={doneIconPath} className="pb-15"/>
             <p className="text text_type_main-default">Ваш заказ начали готовить</p>

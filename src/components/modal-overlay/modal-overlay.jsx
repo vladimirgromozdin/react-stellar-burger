@@ -1,8 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import styles from '../modal-overlay/modal-overlay.module.css'
 import {modalOverlayPropType} from "../../utils/prop-types";
-
 
 
 function ModalOverlay({onClose}) {

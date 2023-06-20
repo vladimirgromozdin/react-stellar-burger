@@ -1,113 +1,106 @@
 // TODO Make every ingredient a separate component for proper click behavior
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-
-import {individualIngredientPropType, ingredientPropType} from "../../utils/prop-types";
-
 import styles from "../burger-ingredients/burger-ingredients.module.css";
+import Ingredient from "../burger-ingredients/ingredient/ingredient"
+import {useSelector} from "react-redux";
 
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
-import PropTypes from "prop-types";
-
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const [current, setCurrent] = useState('bun')
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const burgerIngredientsList = useSelector(store => store.burgerIngredients.ingredients)
+    const tabsHeight = 56;
+    const bunTabRef = useRef(null)
+    const sauceTabRef = useRef(null);
+    const mainTabRef = useRef(null);
 
 
-    const handleIngredientClick = (ingredient) => {
-        setSelectedIngredient(ingredient);
-        setIsModalOpen(true)
+    useEffect(() => {
+        document.addEventListener('scroll', handleScroll);
+        return () => document.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const handleScroll = (e) => {
+        // TODO Tweak the accuracy of scroll tracking
+        const bunPosition = Math.abs(bunTabRef.current.getBoundingClientRect().top - tabsHeight);
+        const saucePosition = Math.abs(sauceTabRef.current.getBoundingClientRect().top - tabsHeight);
+        const mainPosition = Math.abs(mainTabRef.current.getBoundingClientRect().top - tabsHeight);
+        const minDistance = Math.min(bunPosition, saucePosition, mainPosition);
+
+        if (minDistance === bunPosition) {
+            setCurrent('bun');
+        } else if (minDistance === saucePosition) {
+            setCurrent('sauce');
+        } else if (minDistance === mainPosition) {
+            setCurrent('main');
+        }
     };
 
-    const handleModalClose = () => {
-        setIsModalOpen(false)
-    }
+    const refs = {
+        bun: bunTabRef,
+        sauce: sauceTabRef,
+        main: mainTabRef
+    };
+
+    const handleTabClick = (section) => {
+        setCurrent(section);
+        const ref = refs[section];
+        if (ref && ref.current) {
+            ref.current.scrollIntoView({behavior: 'smooth'});
+        }
+    };
+
 
     return (
-        <div className={styles.content}>
+        <section className={styles.content}>
             <h2 className={`${styles.title} text text_type_main-large pl-5 mt-10 mb-5`}>Соберите бургер</h2>
             <div className={styles.tabs}>
-                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+                <Tab value="bun" active={current === 'bun'} onClick={() => handleTabClick('bun')}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+                <Tab value="sauce" active={current === 'sauce'} onClick={() => handleTabClick('sauce')}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+                <Tab value="main" active={current === 'main'} onClick={() => handleTabClick('main')}>
                     Начинки
                 </Tab>
             </div>
-            <div className={`${styles.burgerIngredients} custom-scroll`}>
-                {(isModalOpen &&
-                    <Modal onClose={handleModalClose}>
-                        <IngredientDetails ingredient={selectedIngredient} onClose={handleModalClose}/>
-                    </Modal>
-                )}
-                <h3 className={`${styles.title} text text_type_main-medium pl-5 mt-10`} id="buns">Булки</h3>
-                <ul className={styles.grid}>
-                    {props.ingredients.filter(item => item.type === 'bun').map((ingredient) => (
-                        <li key={ingredient._id} className={`${styles.ingredient} pl-8 pt-6`}
-                            onClick={() => handleIngredientClick(ingredient)}>
-                            <div className={styles.imageWithCounter}>
-                                <Counter count={1} size="small"/>
-                                <img src={ingredient.image} alt={ingredient.name}/>
-                            </div>
-                            <div className={`${styles.price} pt-1 pb-1`}>
-                                <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
-                                <CurrencyIcon type={"primary"}/>
-                            </div>
-                            <div
-                                className={`${styles.ingredientName} text text_type_main-default`}>{ingredient.name}</div>
-                        </li>))}
-                </ul>
-                <h3 className={`${styles.title} text text_type_main-medium pl-5 mt-10`} id="sauce">Соусы</h3>
-                <ul className={styles.grid}>
-                    {props.ingredients.filter(item => item.type === 'sauce').map((ingredient) => (
-                        <li key={ingredient._id} className={`${styles.ingredient} pl-8 pt-6 pb-10`}
-                            onClick={() => handleIngredientClick(ingredient)}>
-                            <div className={styles.imageWithCounter}>
-                                <Counter count={1} size="small"/>
-                                <img src={ingredient.image} alt={ingredient.name}/>
-                            </div>
-                            <div className={`${styles.price} pt-1 pb-1`}>
-                                <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
-                                <CurrencyIcon type={"primary"}/>
-                            </div>
-                            <div
-                                className={`${styles.ingredientName} text text_type_main-default`}>{ingredient.name}</div>
-                        </li>))}
-                </ul>
-                <h3 className={`${styles.title} text text_type_main-medium pl-5 mt-10`} id="main">Начинки</h3>
-                <ul className={styles.grid}>
-                    {props.ingredients.filter(item => item.type === 'main').map((ingredient) => (
-                        <li key={ingredient._id} className={`${styles.ingredient} pl-8 pt-6 pb-10`}
-                            onClick={() => handleIngredientClick(ingredient)}>
-                            <div className={styles.imageWithCounter}>
-                                <Counter count={1} size="small"/>
-                                <img src={ingredient.image} alt={ingredient.name}/>
-                            </div>
-                            <div className={`${styles.price} pt-1 pb-1`}>
-                                <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
-                                <CurrencyIcon type={"primary"}/>
-                            </div>
-                            <div
-                                className={`${styles.ingredientName} text text_type_main-default`}>{ingredient.name}</div>
-                        </li>))}
-                </ul>
-            </div>
-        </div>
-    );
-}
+            <div onScroll={handleScroll} className={`${styles.burgerIngredients} custom-scroll`}>
 
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(
-        PropTypes.shape(individualIngredientPropType)
-    ).isRequired,
+                <h3 ref={bunTabRef} className={`${styles.title} text text_type_main-medium pl-5 mt-10`}
+                    id="buns">Булки</h3>
+                <ul className={styles.grid}>
+                    {burgerIngredientsList.filter(item => item.type === 'bun').map((ingredient) => (
+                        <Ingredient
+                            key={ingredient._id}
+                            ingredient={ingredient}
+                        />
+                    ))}
+                </ul>
+                <h3 ref={sauceTabRef} className={`${styles.title} text text_type_main-medium pl-5 mt-10`}
+                    id="sauce">Соусы</h3>
+                <ul className={styles.grid}>
+                    {burgerIngredientsList.filter(item => item.type === 'sauce').map((ingredient) => (
+                        <Ingredient
+                            key={ingredient._id}
+                            ingredient={ingredient}
+                        />
+                    ))}
+                </ul>
+                <h3 ref={mainTabRef} className={`${styles.title} text text_type_main-medium pl-5 mt-10`}
+                    id="main">Начинки</h3>
+                <ul className={styles.grid}>
+                    {burgerIngredientsList.filter(item => item.type === 'main').map((ingredient) => (
+                        <Ingredient
+                            key={ingredient._id}
+                            ingredient={ingredient}
+                        />
+                    ))}
+                </ul>
+
+            </div>
+        </section>
+    );
 }
 
 export default BurgerIngredients;

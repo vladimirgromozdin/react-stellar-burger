@@ -31,28 +31,28 @@
     margin-block-end: 0px;
 }
 
-.ingredient {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 240px;
-    box-sizing: content-box;
-    cursor: pointer;
-}
+/*.ingredient {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    max-width: 240px;*/
+/*    box-sizing: content-box;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.ingredientName {
-    text-align: center;
-}
+/*.ingredientName {*/
+/*    text-align: center;*/
+/*}*/
 
-.imageWithCounter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
+/*.imageWithCounter {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    position: relative;*/
+/*}*/
 
-.price {
-    display: flex;
-    align-content: center;
-    align-items: center;
-}
+/*.price {*/
+/*    display: flex;*/
+/*    align-content: center;*/
+/*    align-items: center;*/
+/*}*/
