@@ -17,7 +17,6 @@ export const getOrderDetails = (ingredientIds) => {
                 }
             }
         ).then(checkResponse).then(res => {
-            // TODO Check wy the failed case doesn't work
             if (res && res.success) {
                 dispatch({
                     type: SEND_ORDER_DETAILS_SUCCESS,

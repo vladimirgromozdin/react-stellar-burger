@@ -1,4 +1,3 @@
-// TODO Make every ingredient a separate component for proper click behavior
 import React, {useEffect, useRef, useState} from "react";
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";

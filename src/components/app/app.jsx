@@ -7,12 +7,14 @@ import {useDispatch} from "react-redux";
 import {getIngredients} from "../../services/actions/burgerIngredients";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import ResetPassword from "../../pages/reset-password/reset-password";
 
 function App() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // Dispatch the action to fetch ingredients when the component mounts
         dispatch(getIngredients());
     }, [dispatch]);
 
@@ -23,13 +25,14 @@ function App() {
             <div></div>
         </header>
         <main>
-            <div className={styles.builderArea}>
-                <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor/>
-                </DndProvider>
-            </div>
-            <div id="modalRender"></div>
+           <ResetPassword/>
+            {/*<div className={styles.builderArea}>*/}
+            {/*    <DndProvider backend={HTML5Backend}>*/}
+            {/*        <BurgerIngredients/>*/}
+            {/*        <BurgerConstructor/>*/}
+            {/*    </DndProvider>*/}
+            {/*</div>*/}
+            {/*<div id="modalRender"></div>*/}
         </main>
     </div>);
 }
