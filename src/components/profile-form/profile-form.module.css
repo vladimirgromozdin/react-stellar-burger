@@ -1,0 +1,26 @@
+.profileSection {
+    display: flex;
+    flex-grow: 1;
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.navElement {
+    padding-left: 20px;
+    max-width: 320px;
+    width: 100%;
+}
+
+.leftNav {
+    list-style: none;
+    padding-left: 0;
+}
+
+.navItem {
+    line-height: 64px;
+    height: 64px;
+}
