@@ -1,4 +1,5 @@
 import {api, checkResponse} from "../api";
+import {getCookie} from "../utils";
 
 export const PASSWORD_RESET = 'REQUEST_PASSWORD_RESET'
 export const PASSWORD_RESET_SUCCESS = 'REQUEST_PASSWORD_RESET_SUCCESS'
@@ -6,7 +7,6 @@ export const PASSWORD_RESET_FAIL = 'REQUEST_PASSWORD_RESET_FAIL'
 
 export const resetPassword = (password, token) => {
     return function (dispatch) {
-        console.log('Password Reset Attempt')
         dispatch({
             type: PASSWORD_RESET
         })
@@ -15,8 +15,9 @@ export const resetPassword = (password, token) => {
                 "password": password,
                 "token": token
             }), headers: {
-                "content-type": "application/json; charset=UTF-8"
-            }
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + getCookie('accessToken')
+            },
         }).then(checkResponse).then(res => {
             if (res && res.success) {
                 dispatch({
@@ -27,6 +28,11 @@ export const resetPassword = (password, token) => {
                     type: PASSWORD_RESET_FAIL
                 })
             }
+        }).catch(err => {
+            console.error(err)
+            dispatch({
+                type: PASSWORD_RESET_FAIL,
+            })
         })
     }
 }

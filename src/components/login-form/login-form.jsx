@@ -1,10 +1,13 @@
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useState} from "react";
 import styles from "./login-form.module.css"
+import {useDispatch} from "react-redux";
+import {loginRequest} from "../../services/actions/loginForm";
 
 function LoginForm() {
-    const [emailValue, setEmailValue] = useState('bob@example.com')
+    const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
+    const dispatch = useDispatch()
     const onEmailChange = e => {
         setEmailValue(e.target.value)
     }
@@ -12,12 +15,16 @@ function LoginForm() {
         setPasswordValue(e.target.value)
     }
 
+    const handleLoginClick = () => {
+        dispatch(loginRequest(emailValue, passwordValue))
+    }
+
     return (<form className={styles.loginForm}>
         <p className="text text_type_main-medium pb-10">Вход</p>
         {/*TODO Modify inputs styling so the don't jump around when there's an error message*/}
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} extraClass="mb-6"/>
-        <Button htmlType="button" type="primary" size="medium" extraClass="mb-20">
+        <Button onClick={handleLoginClick} htmlType="button" type="primary" size="medium" extraClass="mb-20">
             Войти
         </Button>
         <div className={`${styles.newUser} mb-4`}>

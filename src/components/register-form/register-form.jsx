@@ -1,11 +1,14 @@
-import {Button, Input, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useState} from "react";
+import {useDispatch} from "react-redux";
 import styles from "./register-form.module.css"
+import {registerUser} from "../../services/actions/registerForm";
 
 function RegisterForm() {
-    const [emailValue, setEmailValue] = useState('bob@example.com')
+    const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const [nameValue, setNameValue] = useState('')
+    const dispatch = useDispatch()
     const onEmailChange = e => {
         setEmailValue(e.target.value)
     }
@@ -17,12 +20,16 @@ function RegisterForm() {
         setNameValue(e.target.value)
     }
 
+    const handleRegisterClick = () => {
+        dispatch(registerUser(emailValue, passwordValue, nameValue))
+    }
+
     return (<form className={styles.registerForm}>
         <p className="text text_type_main-medium pb-10">Регистрация</p>
         <Input value={nameValue} onChange={onNameChange} placeholder='Имя' extraClass="mb-6"/>
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} extraClass="mb-6"/>
-        <Button htmlType="button" type="primary" size="medium" extraClass="mb-20">
+        <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={handleRegisterClick}>
             Зарегистрироваться
         </Button>
         <div className={`${styles.signIn} mb-4`}>

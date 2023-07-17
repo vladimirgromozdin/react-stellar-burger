@@ -5,7 +5,7 @@ import {requestPasswordChangeEmail} from "../../services/actions/forgotPasswordF
 import {useDispatch} from "react-redux";
 
 function ForgotPasswordForm() {
-    const [emailValue, setEmailValue] = useState('bob@example.com')
+    const [emailValue, setEmailValue] = useState('')
     const onEmailChange = e => {
         setEmailValue(e.target.value)
     }

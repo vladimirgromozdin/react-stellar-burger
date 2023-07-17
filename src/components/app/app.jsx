@@ -11,6 +11,7 @@ import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import ProfileForm from "../profile-form/profile-form";
+import Login from "../../pages/login/login";
 
 function App() {
     const dispatch = useDispatch()
@@ -26,13 +27,18 @@ function App() {
             <div></div>
         </header>
         <main>
-            <div className={styles.builderArea}>
-                <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor/>
-                </DndProvider>
-            </div>
-            <div id="modalRender"></div>
+            <Register />
+            <Login />
+            <ForgotPassword />
+            <ResetPassword />
+            <ProfileForm />
+            {/*<div className={styles.builderArea}>*/}
+            {/*    <DndProvider backend={HTML5Backend}>*/}
+            {/*        <BurgerIngredients/>*/}
+            {/*        <BurgerConstructor/>*/}
+            {/*    </DndProvider>*/}
+            {/*</div>*/}
+            {/*<div id="modalRender"></div>*/}
         </main>
     </div>);
 }
