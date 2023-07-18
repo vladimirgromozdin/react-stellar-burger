@@ -12,6 +12,7 @@ import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import ProfileForm from "../profile-form/profile-form";
 import Login from "../../pages/login/login";
+import Profile from "../../pages/profile/profile";
 
 function App() {
     const dispatch = useDispatch()
@@ -31,7 +32,7 @@ function App() {
             <Login />
             <ForgotPassword />
             <ResetPassword />
-            <ProfileForm />
+            <Profile />
             {/*<div className={styles.builderArea}>*/}
             {/*    <DndProvider backend={HTML5Backend}>*/}
             {/*        <BurgerIngredients/>*/}
