@@ -2,11 +2,11 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import React, {useEffect, useState} from "react";
 import styles from "./profile-form.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {fetchUserProfile, updateUserProfile} from "../../services/actions/profileForm";
+import {fetchUserProfile, logout, updateUserProfile} from "../../services/actions/profileForm";
 
 function ProfileForm() {
-    const userName = useSelector(store => store.profileForm.userInfo.name)
-    const userEmail = useSelector(store => store.profileForm.userInfo.email)
+    const userName = useSelector(store => store.profileForm.userInfo?.name || '');
+    const userEmail = useSelector(store => store.profileForm.userInfo?.email || '');
     const [nameValue, setNameValue] = useState(userName)
     const [emailValue, setEmailValue] = useState(userEmail)
     const [passwordValue, setPasswordValue] = useState('*******')
@@ -38,6 +38,9 @@ function ProfileForm() {
         setNameValue(userName)
         setEmailValue(userEmail)
     }
+    const handleLogoutClick = () => {
+        dispatch(logout())
+    }
 
 
     return (<section className={styles.profileSection}>
@@ -45,7 +48,7 @@ function ProfileForm() {
             <ul className={`${styles.leftNav} text mb-20`}>
                 <li className={`${styles.navItem} text_type_main-medium`}>Профиль</li>
                 <li className={`${styles.navItem} text_type_main-medium text_color_inactive`}>История заказов</li>
-                <li className={`${styles.navItem} text_type_main-medium text_color_inactive`}>Выход</li>
+                <li onClick={handleLogoutClick} className={`${styles.navItem} text_type_main-medium text_color_inactive`}>Выход</li>
             </ul>
             <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете <br/> изменить свои
                 персональные данные</p>

@@ -4,7 +4,10 @@ import {
     FETCH_USER_PROFILE_SUCCESS,
     UPDATE_USER_PROFILE_FAIL,
     UPDATE_USER_PROFILE_REQUEST,
-    UPDATE_USER_PROFILE_SUCCESS
+    UPDATE_USER_PROFILE_SUCCESS,
+    LOGOUT_USER_REQUEST,
+    LOGOUT_USER_REQUEST_SUCCESS,
+    LOGOUT_USER_REQUEST_FAIL
 } from "../actions/profileForm";
 
 const initialState = {
@@ -15,7 +18,9 @@ const initialState = {
     fetchProfileRequest: false,
     fetchProfileFail: false,
     updateUserProfileRequest: false,
-    updateUserProfileFail: false
+    updateUserProfileFail: false,
+    logoutUserRequest: false,
+    logoutUserFail: false
 }
 
 export const profileFormReducer = (state = initialState, action) => {
@@ -53,6 +58,23 @@ export const profileFormReducer = (state = initialState, action) => {
                 ...state,
                 updateUserProfileRequest: false,
                 updateUserProfileFail: true
+            }
+        case LOGOUT_USER_REQUEST:
+            return {
+                ...state,
+                logoutUserRequest: true
+            };
+        case LOGOUT_USER_REQUEST_SUCCESS:
+            return {
+                ...state,
+                logoutUserRequest: false,
+                userInfo: action.payload.user
+            }
+        case LOGOUT_USER_REQUEST_FAIL:
+            return {
+                ...state,
+                logoutUserRequest: false,
+                logoutUserFail: true
             }
         default:
             return state;

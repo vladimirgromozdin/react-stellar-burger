@@ -18,6 +18,7 @@
 .leftNav {
     list-style: none;
     padding-left: 0;
+    cursor: pointer;
 }
 
 .navItem {

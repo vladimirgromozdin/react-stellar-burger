@@ -1,13 +1,16 @@
 import {api, checkResponse, refreshToken} from "../api";
-import {getCookie} from "../utils";
+import {getCookie, deleteCookie} from "../utils";
 
 export const FETCH_USER_PROFILE_REQUEST = 'FETCH_USER_PROFILE_REQUEST';
 export const FETCH_USER_PROFILE_SUCCESS = 'FETCH_USER_PROFILE_SUCCESS';
 export const FETCH_USER_PROFILE_FAIL = 'FETCH_USER_PROFILE_FAIL';
-
 export const UPDATE_USER_PROFILE_REQUEST = 'UPDATE_USER_PROFILE_REQUEST';
 export const UPDATE_USER_PROFILE_SUCCESS = 'UPDATE_USER_PROFILE_SUCCESS';
 export const UPDATE_USER_PROFILE_FAIL = 'UPDATE_USER_PROFILE_FAIL';
+export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST'
+export const LOGOUT_USER_REQUEST_SUCCESS = 'LOGOUT_USER_REQUEST_SUCCESS'
+export const LOGOUT_USER_REQUEST_FAIL = 'LOGOUT_USER_REQUEST_FAIL'
+
 
 export const fetchUserProfile = () => {
     return async function (dispatch) {
@@ -48,7 +51,6 @@ export const fetchUserProfile = () => {
     }
 }
 
-
 export const updateUserProfile = (name, email) => {
     return async function (dispatch) {
         const token = getCookie('accessToken')
@@ -88,5 +90,47 @@ export const updateUserProfile = (name, email) => {
             }
         }
         updateUserData(name, email)
+    }
+}
+
+export const logout = () => {
+    return async function (dispatch) {
+        const token = getCookie('refreshToken')
+        dispatch({type: LOGOUT_USER_REQUEST});
+        const logUserOut = async () => {
+            try {
+                const response = await fetch(`${api}/auth/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }, body: JSON.stringify({
+                        "token": token
+                    })
+                });
+                const data = await checkResponse(response);
+                if (data && data.success) {
+                    dispatch({
+                        type: LOGOUT_USER_REQUEST_SUCCESS,
+                        payload: data
+                    })
+                    deleteCookie('refreshToken')
+                    deleteCookie('accessToken')
+                } else {
+                    throw new Error(data.message || 'Profile fetch failed');
+                }
+            } catch (error) {
+                if (error.message === 'jwt expired') {
+                    const refreshedToken = await refreshToken();
+                    if (refreshedToken) {
+                        logUserOut()
+                    } else {
+                        dispatch({type: LOGOUT_USER_REQUEST_FAIL, payload: error});
+                    }
+                } else {
+                    dispatch({type: LOGOUT_USER_REQUEST_FAIL, payload: error});
+                }
+            }
+        }
+        logUserOut()
     }
 }
