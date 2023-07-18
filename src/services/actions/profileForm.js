@@ -1,4 +1,4 @@
-import {api, checkResponse} from "../api";
+import {api, checkResponse, refreshToken} from "../api";
 import {getCookie} from "../utils";
 
 export const FETCH_USER_PROFILE_REQUEST = 'FETCH_USER_PROFILE_REQUEST';
@@ -10,60 +10,83 @@ export const UPDATE_USER_PROFILE_SUCCESS = 'UPDATE_USER_PROFILE_SUCCESS';
 export const UPDATE_USER_PROFILE_FAIL = 'UPDATE_USER_PROFILE_FAIL';
 
 export const fetchUserProfile = () => {
-    const token = getCookie('accessToken')
     return async function (dispatch) {
+        const token = getCookie('accessToken')
         dispatch({type: FETCH_USER_PROFILE_REQUEST});
-        fetch(`${api}/auth/user`, {
-            method: 'GET',
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(checkResponse)
-            .then(res => {
-                if (res && res.success) {
+        const getUserData = async () => {
+            try {
+                const response = await fetch(`${api}/auth/user`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await checkResponse(response);
+                if (data && data.success) {
                     dispatch({
                         type: FETCH_USER_PROFILE_SUCCESS,
-                        payload: res
+                        payload: data
                     });
                 } else {
-                    throw new Error(res.message || 'Profile fetch failed');
+                    throw new Error(data.message || 'Profile fetch failed');
                 }
-            })
-            .catch((error) => {
-                dispatch({type: FETCH_USER_PROFILE_FAIL, payload: error});
-            });
+            } catch (error) {
+                if (error.message === 'jwt expired') {
+                    const refreshedToken = await refreshToken();
+                    if (refreshedToken) {
+                        getUserData()
+                    } else {
+                        dispatch({type: FETCH_USER_PROFILE_FAIL, payload: error});
+                    }
+                } else {
+                    dispatch({type: FETCH_USER_PROFILE_FAIL, payload: error});
+                }
+            }
+        }
+        getUserData();
     }
-};
+}
+
 
 export const updateUserProfile = (name, email) => {
-    const token = getCookie('accessToken')
     return async function (dispatch) {
+        const token = getCookie('accessToken')
         dispatch({type: UPDATE_USER_PROFILE_REQUEST});
-        fetch(`${api}/auth/user`, {
-            method: 'PATCH', body: JSON.stringify({
-                "name": name,
-                "email": email
-            }),
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(checkResponse)
-            .then(res => {
-                if (res && res.success) {
+        const updateUserData = async (name, email) => {
+            try {
+                const response = await fetch(`${api}/auth/user`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json',
+                    }, body: JSON.stringify({
+                        "name": name,
+                        "email": email
+                    })
+                });
+                const data = await checkResponse(response);
+                if (data && data.success) {
                     dispatch({
                         type: UPDATE_USER_PROFILE_SUCCESS,
-                        payload: res
+                        payload: data
                     });
                 } else {
-                    throw new Error(res.message || 'Profile fetch failed');
+                    throw new Error(data.message || 'Profile fetch failed');
                 }
-            })
-            .catch((error) => {
-                dispatch({type: UPDATE_USER_PROFILE_FAIL, payload: error});
-            });
+            } catch (error) {
+                if (error.message === 'jwt expired') {
+                    const refreshedToken = await refreshToken();
+                    if (refreshedToken) {
+                        updateUserData(name, email)
+                    } else {
+                        dispatch({type: UPDATE_USER_PROFILE_FAIL, payload: error});
+                    }
+                } else {
+                    dispatch({type: UPDATE_USER_PROFILE_FAIL, payload: error});
+                }
+            }
+        }
+        updateUserData(name, email)
     }
-};
+}

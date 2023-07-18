@@ -26,8 +26,8 @@ export const loginRequest = (email, password) => {
             })
         }).then(checkResponse).then(res => {
             if (res && res.success) {
-                setCookie('accessToken', res.accessToken, {expires: 1200})
-                setCookie('refreshToken', res.refreshToken, {expires: 300})
+                setCookie('accessToken', res.accessToken, {expires: 12000})
+                setCookie('refreshToken', res.refreshToken, {expires: 86400})
                 dispatch({
                     type: LOGIN_ATTEMPT_SUCCESS,
                     payload: res
