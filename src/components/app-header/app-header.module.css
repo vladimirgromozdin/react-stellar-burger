@@ -11,11 +11,13 @@
     justify-content: flex-start;
     column-gap: 8px;
     padding-left: 0;
+    cursor: pointer;
 }
 
 .rightNavMenu {
     display: flex;
     justify-content: flex-end;
+    cursor: pointer;
 }
 
 .logo {
@@ -23,12 +25,17 @@
     margin-right: auto;
 }
 
-.primaryMenuItem {
+.menuItem {
+    color: #8585AD;
     display: flex;
+    text-decoration: none;
+}
+
+.activeMenuItem {
     color: #f2f2f3;
 }
 
-.secondaryMenuItem {
-    composes: primaryMenuItem;
-    color: #8585AD;
+
+.link {
+    text-decoration: none;
 }

@@ -1,5 +1,5 @@
-.registerSection {
-    padding-top: 180px;
+.page {
     display: flex;
     justify-content: center;
+    padding-top: 250px
 }

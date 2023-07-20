@@ -2,11 +2,12 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import React, {useEffect, useState} from "react";
 import styles from "./profile-form.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {fetchUserProfile, logout, updateUserProfile} from "../../services/actions/profileForm";
+import {logout, updateUserProfile} from "../../services/actions/profileForm";
+import {Link} from "react-router-dom";
 
 function ProfileForm() {
-    const userName = useSelector(store => store.profileForm.userInfo?.name || '');
-    const userEmail = useSelector(store => store.profileForm.userInfo?.email || '');
+    const userName = useSelector(store => store.checkAuth.user?.name || '');
+    const userEmail = useSelector(store => store.checkAuth.user?.email || '');
     const [nameValue, setNameValue] = useState(userName)
     const [emailValue, setEmailValue] = useState(userEmail)
     const [passwordValue, setPasswordValue] = useState('*******')
@@ -21,9 +22,6 @@ function ProfileForm() {
     const onNameChange = e => {
         setNameValue(e.target.value)
     }
-    useEffect(() => {
-        dispatch(fetchUserProfile())
-    }, [dispatch])
 
     useEffect(() => {
         setNameValue(userName);
@@ -43,12 +41,16 @@ function ProfileForm() {
     }
 
 
-    return (<section className={styles.profileSection}>
+    return (<div className={styles.profileSection}>
         <nav className={styles.navElement}>
             <ul className={`${styles.leftNav} text mb-20`}>
-                <li className={`${styles.navItem} text_type_main-medium`}>Профиль</li>
+                <Link className={styles.link} to='/profile'>
+                    <li className={`${styles.navItem} text_type_main-medium`}>Профиль</li>
+                </Link>
                 <li className={`${styles.navItem} text_type_main-medium text_color_inactive`}>История заказов</li>
-                <li onClick={handleLogoutClick} className={`${styles.navItem} text_type_main-medium text_color_inactive`}>Выход</li>
+                <li onClick={handleLogoutClick}
+                    className={`${styles.navItem} text_type_main-medium text_color_inactive`}>Выход
+                </li>
             </ul>
             <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете <br/> изменить свои
                 персональные данные</p>
@@ -58,8 +60,8 @@ function ProfileForm() {
             <EmailInput isIcon={true} value={emailValue} onChange={onEmailChange}/>
             <PasswordInput icon={'EditIcon'} value={passwordValue} onChange={onPasswordChange}/>
             <div>
-                {/*TODO Conditionally make buttons interactive - inactive when there are no changes to save etc*/}
-                <Button disabled={!isModified} htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={handleSaveClick}>
+                <Button disabled={!isModified} htmlType="button" type="primary" size="medium" extraClass="mb-20"
+                        onClick={handleSaveClick}>
                     Сохранить
                 </Button>
                 <Button style={{padding: "0px 0px 0px 24px"}} cellSpacing={0}
@@ -68,7 +70,7 @@ function ProfileForm() {
                 </Button>
             </div>
         </form>
-    </section>)
+    </div>)
 }
 
 export default ProfileForm

@@ -8,6 +8,7 @@ import {resetPasswordFormReducer} from "./resetPasswordForm";
 import {registerUserReducer} from "./registerForm";
 import {loginReducer} from "./loginForm";
 import {profileFormReducer} from "./profileForm";
+import {checkAuthReducer} from "./checkAuth";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     resetPasswordForm: resetPasswordFormReducer,
     registerUser: registerUserReducer,
     login: loginReducer,
-    profileForm: profileFormReducer
+    profileForm: profileFormReducer,
+    checkAuth: checkAuthReducer
 });
 
 export default rootReducer;

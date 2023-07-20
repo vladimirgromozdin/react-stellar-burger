@@ -1,5 +1,7 @@
-import {api, checkResponse} from "../api";
+import {api, checkResponse, checkUserAuth} from "../api";
 import {setCookie} from "../utils";
+import {Navigate} from "react-router-dom";
+import {fetchUserProfile} from "./profileForm";
 
 export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 export const LOGIN_ATTEMPT_SUCCESS = 'LOGIN_ATTEMPT_SUCCESS'
@@ -32,6 +34,7 @@ export const loginRequest = (email, password) => {
                     type: LOGIN_ATTEMPT_SUCCESS,
                     payload: res
                 })
+                dispatch(checkUserAuth())
             } else {
                 dispatch({
                     type: LOGIN_ATTEMPT_FAIL

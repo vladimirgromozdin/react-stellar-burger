@@ -1,5 +1,6 @@
-import {api, checkResponse, refreshToken} from "../api";
+import {api, checkResponse, checkUserAuth, refreshToken} from "../api";
 import {getCookie, deleteCookie} from "../utils";
+import {removeUserData} from "./checkAuth";
 
 export const FETCH_USER_PROFILE_REQUEST = 'FETCH_USER_PROFILE_REQUEST';
 export const FETCH_USER_PROFILE_SUCCESS = 'FETCH_USER_PROFILE_SUCCESS';
@@ -31,6 +32,7 @@ export const fetchUserProfile = () => {
                         type: FETCH_USER_PROFILE_SUCCESS,
                         payload: data
                     });
+                    return data;
                 } else {
                     throw new Error(data.message || 'Profile fetch failed');
                 }
@@ -38,7 +40,7 @@ export const fetchUserProfile = () => {
                 if (error.message === 'jwt expired') {
                     const refreshedToken = await refreshToken();
                     if (refreshedToken) {
-                        getUserData()
+                        return getUserData()
                     } else {
                         dispatch({type: FETCH_USER_PROFILE_FAIL, payload: error});
                     }
@@ -47,7 +49,7 @@ export const fetchUserProfile = () => {
                 }
             }
         }
-        getUserData();
+        return getUserData()
     }
 }
 
@@ -115,6 +117,8 @@ export const logout = () => {
                     })
                     deleteCookie('refreshToken')
                     deleteCookie('accessToken')
+                    dispatch(removeUserData())
+                    dispatch(checkUserAuth())
                 } else {
                     throw new Error(data.message || 'Profile fetch failed');
                 }

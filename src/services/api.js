@@ -1,4 +1,6 @@
 import {getCookie, setCookie} from "./utils";
+import {fetchUserProfile} from "./actions/profileForm";
+import {setAuthChecked, setUser} from "./actions/checkAuth";
 
 export const api = 'https://norma.nomoreparties.space/api';
 
@@ -30,3 +32,19 @@ export async function refreshToken() {
         return false;
     }
 }
+
+export const checkUserAuth = () => {
+    return (dispatch) => {
+        if (getCookie('accessToken')) {
+            dispatch(fetchUserProfile())
+                .then(data => {
+                    dispatch(setUser(data.user));
+                })
+                .finally(() => {
+                    dispatch(setAuthChecked(true));
+                });
+        } else {
+            dispatch(setAuthChecked(true));
+        }
+    };
+};

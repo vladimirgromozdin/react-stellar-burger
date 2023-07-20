@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import styles from "./register-form.module.css"
 import {registerUser} from "../../services/actions/registerForm";
+import {Link} from "react-router-dom";
 
 function RegisterForm() {
     const [emailValue, setEmailValue] = useState('')
@@ -34,10 +35,10 @@ function RegisterForm() {
         </Button>
         <div className={`${styles.signIn} mb-4`}>
             <p className="text text_type_main-default text_color_inactive">Уже зарегистрированы?</p>
-            <Button style={{padding: "0px 0px 0px 8px"}} cellSpacing={0}
-                    htmlType="button" type="secondary" size="medium">
+            <Link className={styles.link} to='/login'><Button style={{padding: "0px 0px 0px 8px"}} cellSpacing={0}
+                       htmlType="button" type="secondary" size="medium">
                 Войти
-            </Button></div>
+            </Button></Link></div>
     </form>)
 }
 

@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import styles from "./login-form.module.css"
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../services/actions/loginForm";
+import {Link} from "react-router-dom";
 
 function LoginForm() {
     const [emailValue, setEmailValue] = useState('')
@@ -30,18 +31,18 @@ function LoginForm() {
         <div className={`${styles.newUser} mb-4`}>
             <p className="text text_type_main-default text_color_inactive">Вы — новый
                 пользователь?</p>
-            <Button style={{padding: "0px 0px 0px 8px"}} cellSpacing={0}
-                    htmlType="button" type="secondary" size="medium">
+            <Link className={styles.link} to='/register'><Button style={{padding: "0px 0px 0px 8px"}} cellSpacing={0}
+                       htmlType="button" type="secondary" size="medium">
                 Зарегистрироваться
-            </Button></div>
+            </Button></Link></div>
         <div className={styles.passwordRecovery}>
             <p className="text text_type_main-default text_color_inactive">Забыли
                 пароль?</p>
-            <Button style={{padding: "0px 0px 0px 8px"}} htmlType="button"
-                    type="secondary"
-                    size="medium">
+            <Link className={styles.link} to='/forgot-password'><Button style={{padding: "0px 0px 0px 8px"}} htmlType="button"
+                       type="secondary"
+                       size="medium">
                 Восстановить
-            </Button></div>
+            </Button></Link></div>
     </form>)
 }
 

@@ -1,9 +1,11 @@
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./reset-password-form.module.css"
 import {resetPassword} from "../../services/actions/resetPasswordForm";
 import {useDispatch} from "react-redux";
 import {requestPasswordChangeEmail} from "../../services/actions/forgotPasswordForm";
+import {useLocation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function ResetPasswordForm() {
     const [tokenValue, setTokenValue] = useState('')
@@ -15,9 +17,21 @@ function ResetPasswordForm() {
     const onTokenChange = e => {
         setTokenValue(e.target.value)
     }
+
     const handleResetPasswordClick = () => {
         dispatch(resetPassword(passwordValue, tokenValue))
     }
+
+    const location = useLocation()
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (!location.state || location.state.from !== '/forgot-password') {
+            navigate('/forgot-password');
+        }
+    }, [location, navigate])
+    // Making sure that user can only access the '/reset-password' URL
+    // after he actually visited '/forgot-password' page
+
     return (<form className={styles.resetPasswordForm}>
         <p className="text text_type_main-medium pb-10">Восстановление пароля</p>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} placeholder='Введите новый пароль'
