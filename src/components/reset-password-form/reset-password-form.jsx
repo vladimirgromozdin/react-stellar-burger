@@ -3,9 +3,7 @@ import React, {useEffect, useState} from "react";
 import styles from "./reset-password-form.module.css"
 import {resetPassword} from "../../services/actions/resetPasswordForm";
 import {useDispatch} from "react-redux";
-import {requestPasswordChangeEmail} from "../../services/actions/forgotPasswordForm";
-import {useLocation} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function ResetPasswordForm() {
     const [tokenValue, setTokenValue] = useState('')

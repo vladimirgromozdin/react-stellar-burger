@@ -1,13 +1,12 @@
 import {api, checkResponse, checkUserAuth} from "../api";
 import {setCookie} from "../utils";
-import {Navigate} from "react-router-dom";
-import {fetchUserProfile} from "./profileForm";
+import {useNavigate} from "react-router-dom";
 
 export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 export const LOGIN_ATTEMPT_SUCCESS = 'LOGIN_ATTEMPT_SUCCESS'
 export const LOGIN_ATTEMPT_FAIL = 'LOGIN_ATTEMPT_FAIL'
 
-export const loginRequest = (email, password) => {
+export const loginRequest = (email, password, navigate) => {
     return async function (dispatch) {
         dispatch({
             type: LOGIN_ATTEMPT
@@ -35,6 +34,7 @@ export const loginRequest = (email, password) => {
                     payload: res
                 })
                 dispatch(checkUserAuth())
+                navigate('/');
             } else {
                 dispatch({
                     type: LOGIN_ATTEMPT_FAIL

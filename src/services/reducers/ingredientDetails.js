@@ -1,17 +1,30 @@
-import {REMOVE_CURRENT_INGREDIENT_DETAILS, SAVE_CURRENT_INGREDIENT_DETAILS} from "../actions/ingredientDetails";
+import {GET_INGREDIENT_DETAILS, GET_INGREDIENT_DETAILS_SUCCESS, GET_INGREDIENT_DETAILS_FAIL} from "../actions/ingredientDetails";
 
-const initialState = {};
+const initialState = {
+    ingredient: {},
+    ingredientDetailsRequest: false,
+    ingredientDetailsRequestFail: false
+};
 
 export const ingredientDetailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SAVE_CURRENT_INGREDIENT_DETAILS:
+        case GET_INGREDIENT_DETAILS:
             return {
-                ingredient: action.payload
+                ...state,
+                ingredientDetailsRequest: true,
             }
-
-        case REMOVE_CURRENT_INGREDIENT_DETAILS:
-            return initialState
-
+        case GET_INGREDIENT_DETAILS_SUCCESS:
+            return {
+                ...state,
+                ingredient: action.payload,
+                ingredientDetailsRequest: false,
+                ingredientDetailsRequestFail: false
+            }
+        case GET_INGREDIENT_DETAILS_FAIL:
+            return {
+                ...state,
+                ingredientDetailsRequestFail: true
+            }
         default: {
             return state
         }

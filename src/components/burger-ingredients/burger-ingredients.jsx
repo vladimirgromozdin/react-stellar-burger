@@ -20,7 +20,9 @@ function BurgerIngredients() {
     }, []);
 
     const handleScroll = (e) => {
-        // TODO Tweak the accuracy of scroll tracking
+        if (!bunTabRef.current || !sauceTabRef.current || !mainTabRef.current) {
+            return;
+        }
         const bunPosition = Math.abs(bunTabRef.current.getBoundingClientRect().top - tabsHeight);
         const saucePosition = Math.abs(sauceTabRef.current.getBoundingClientRect().top - tabsHeight);
         const mainPosition = Math.abs(mainTabRef.current.getBoundingClientRect().top - tabsHeight);

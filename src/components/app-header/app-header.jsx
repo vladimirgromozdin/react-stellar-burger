@@ -27,7 +27,8 @@ function AppHeader() {
             <Link className={styles.link} to='/profile'>
                 <div className={`${styles.menuItem} ml-5 mr-5`}>
                     <ProfileIcon type={"secondary"}/>
-                    <p className={`text text_type_main-default ml-2 ${matchProfile || matchLogin || matchForgotPassword || matchResetPassword ? styles.activeMenuItem : ''}`}>Личный кабинет</p>
+                    <p className={`text text_type_main-default ml-2 ${matchProfile || matchLogin || matchForgotPassword || matchResetPassword ? styles.activeMenuItem : ''}`}>Личный
+                        кабинет</p>
                 </div>
             </Link>
         </div>

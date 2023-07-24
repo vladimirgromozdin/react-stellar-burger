@@ -17,4 +17,10 @@
     position: absolute;
     top: 60px;
     right: 40px;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.modalContent {
+    position: relative;
 }

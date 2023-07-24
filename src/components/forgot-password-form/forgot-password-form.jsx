@@ -3,8 +3,7 @@ import React, {useState} from "react";
 import styles from "./forgot-password-form.module.css"
 import {requestPasswordChangeEmail} from "../../services/actions/forgotPasswordForm";
 import {useDispatch} from "react-redux";
-import {Link} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function ForgotPasswordForm() {
     const [emailValue, setEmailValue] = useState('')
@@ -19,13 +18,14 @@ function ForgotPasswordForm() {
             return;
         }
         dispatch(requestPasswordChangeEmail(emailValue))
-        navigate('/reset-password', { state: { from: '/forgot-password' } });
+        navigate('/reset-password', {state: {from: '/forgot-password'}});
     }
     return (<form className={styles.forgotPasswordForm}>
         <p className="text text_type_main-medium pb-10">Восстановление пароля</p>
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
-       <Button onClick={handleRecoverPasswordClick} disabled={!emailValue} htmlType="button" type="primary" size="medium"
-                   extraClass="mb-20">
+        <Button onClick={handleRecoverPasswordClick} disabled={!emailValue} htmlType="button" type="primary"
+                size="medium"
+                extraClass="mb-20">
             Восстановить
         </Button>
         <div className={styles.rememberPassword}>

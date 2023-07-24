@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import styles from "./login-form.module.css"
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../services/actions/loginForm";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function LoginForm() {
     const [emailValue, setEmailValue] = useState('')
@@ -15,9 +15,9 @@ function LoginForm() {
     const onPasswordChange = e => {
         setPasswordValue(e.target.value)
     }
-
+    const navigate = useNavigate();
     const handleLoginClick = () => {
-        dispatch(loginRequest(emailValue, passwordValue))
+        dispatch(loginRequest(emailValue, passwordValue, navigate))
     }
 
     return (<form className={styles.loginForm}>
@@ -32,15 +32,16 @@ function LoginForm() {
             <p className="text text_type_main-default text_color_inactive">Вы — новый
                 пользователь?</p>
             <Link className={styles.link} to='/register'><Button style={{padding: "0px 0px 0px 8px"}} cellSpacing={0}
-                       htmlType="button" type="secondary" size="medium">
+                                                                 htmlType="button" type="secondary" size="medium">
                 Зарегистрироваться
             </Button></Link></div>
         <div className={styles.passwordRecovery}>
             <p className="text text_type_main-default text_color_inactive">Забыли
                 пароль?</p>
-            <Link className={styles.link} to='/forgot-password'><Button style={{padding: "0px 0px 0px 8px"}} htmlType="button"
-                       type="secondary"
-                       size="medium">
+            <Link className={styles.link} to='/forgot-password'><Button style={{padding: "0px 0px 0px 8px"}}
+                                                                        htmlType="button"
+                                                                        type="secondary"
+                                                                        size="medium">
                 Восстановить
             </Button></Link></div>
     </form>)

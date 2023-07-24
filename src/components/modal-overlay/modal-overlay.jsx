@@ -9,7 +9,8 @@ function ModalOverlay({onClose}) {
     };
 
     return (
-        <div className={styles.overlay} onClick={handleOverlayClick}></div>
+        <div className={styles.overlay} onClick={handleOverlayClick}>
+        </div>
     )
 }
 

@@ -1,48 +1,44 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "../ingredient-details/ingredient-details.module.css";
-import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {fetchIngredientDetails} from "../../services/actions/ingredientDetails";
+
 
 function IngredientDetails(props) {
-    const {onClose} = props;
-    const ingredient = useSelector(store => store.ingredientDetails.ingredient)
-    const handleModalClose = () => {
-        onClose();
-    }
+    const dispatch = useDispatch();
+    const {id} = useParams();
 
+    useEffect(() => {
+        dispatch(fetchIngredientDetails(id));
+    }, [id, dispatch]);
+    const ingredientDetails = useSelector(store => store.ingredientDetails.ingredient);
     return (
         <div className={`${styles.content} pt-10 pr-10 pl-10 pb-4`}>
-            <div className={styles.closeIcon}>
-                <CloseIcon type={"primary"} onClick={handleModalClose}></CloseIcon>
-            </div>
             <h3 className={`${styles.headline} text text_type_main-large pt-10`}>Детали ингредиента</h3>
-            <img src={ingredient.image_large} className="pb-4" alt={ingredient.name}/>
-            <h4 className="text text_type_main-medium pb-8">{ingredient.name}</h4>
+            <img src={ingredientDetails.image_large} className="pb-4" alt={ingredientDetails.name}/>
+            <h4 className="text text_type_main-medium pb-8">{ingredientDetails.name}</h4>
             <ul className={styles.nutritionDataWrapper}>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredient.calories}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.calories}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredient.proteins}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.proteins}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredient.fat}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.fat}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredient.carbohydrates}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.carbohydrates}</p>
                 </li>
             </ul>
         </div>
     )
 }
 
-IngredientDetails.propTypes = {
-    onClose: PropTypes.func.isRequired,
-};
 
 export default IngredientDetails

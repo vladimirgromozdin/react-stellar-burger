@@ -9,9 +9,12 @@ import {useDrop} from "react-dnd";
 import {addIngredientToConstructor} from "../../services/actions/burgerIngredients";
 import {reorderIngredient} from "../../services/actions/burgerConstructor";
 import DraggableIngredient from "./draggable-ingredient/draggableIngredient";
+import {useNavigate} from "react-router-dom";
 
 
 function BurgerConstructor() {
+    const user = useSelector((store) => store.checkAuth.user);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const moveIngredient = useCallback(
         (dragIndex, hoverIndex) => {
@@ -48,7 +51,7 @@ function BurgerConstructor() {
     }, [constructorIngredients])
 
     const handleSendOrder = useCallback(() => {
-        dispatch(getOrderDetails(ingredientsIds));
+        dispatch(getOrderDetails(ingredientsIds, user, navigate));
     }, [dispatch, ingredientsIds])
     const [isModalOpen, setIsModalOpen] = useState(false);
 

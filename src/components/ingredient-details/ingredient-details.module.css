@@ -14,14 +14,6 @@
     z-index: 3;
 }
 
-.closeIcon {
-    display: flex;
-    position: absolute;
-    top: 60px;
-    right: 40px;
-    cursor: pointer;
-}
-
 .headline {
     display: flex;
     align-items: center;
