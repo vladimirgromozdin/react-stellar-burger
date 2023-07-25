@@ -1,7 +1,7 @@
 import {GET_INGREDIENT_DETAILS, GET_INGREDIENT_DETAILS_SUCCESS, GET_INGREDIENT_DETAILS_FAIL} from "../actions/ingredientDetails";
 
 const initialState = {
-    ingredient: {},
+    ingredient: null,
     ingredientDetailsRequest: false,
     ingredientDetailsRequestFail: false
 };

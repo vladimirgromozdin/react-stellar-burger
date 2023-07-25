@@ -4,9 +4,8 @@ export const EMAIL_PASSWORD_RESET_LINK = 'EMAIL_PASSWORD_RESET_LINK'
 export const EMAIL_PASSWORD_RESET_LINK_SUCCESS = 'EMAIL_PASSWORD_RESET_LINK_SUCCESS'
 export const EMAIL_PASSWORD_RESET_LINK_FAIL = 'EMAIL_PASSWORD_RESET_LINK_FAIL'
 
-export const requestPasswordChangeEmail = email => {
+export const requestPasswordChangeEmail = (email, {onSuccess} = {}) => {
     return function (dispatch) {
-        console.log('Password Change Email Attempt')
         dispatch({
             type: EMAIL_PASSWORD_RESET_LINK
         })
@@ -21,6 +20,9 @@ export const requestPasswordChangeEmail = email => {
                 dispatch({
                     type: EMAIL_PASSWORD_RESET_LINK_SUCCESS,
                 })
+                if (onSuccess) {
+                    onSuccess();
+                }
             } else {
                 dispatch({
                     type: EMAIL_PASSWORD_RESET_LINK_FAIL

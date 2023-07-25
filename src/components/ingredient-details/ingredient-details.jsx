@@ -16,24 +16,24 @@ function IngredientDetails(props) {
     return (
         <div className={`${styles.content} pt-10 pr-10 pl-10 pb-4`}>
             <h3 className={`${styles.headline} text text_type_main-large pt-10`}>Детали ингредиента</h3>
-            <img src={ingredientDetails.image_large} className="pb-4" alt={ingredientDetails.name}/>
-            <h4 className="text text_type_main-medium pb-8">{ingredientDetails.name}</h4>
+            <img src={ingredientDetails?.image_large} className="pb-4" alt={ingredientDetails?.name}/>
+            <h4 className="text text_type_main-medium pb-8">{ingredientDetails?.name}</h4>
             <ul className={styles.nutritionDataWrapper}>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.calories}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.calories}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.proteins}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.proteins}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.fat}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.fat}</p>
                 </li>
                 <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.carbohydrates}</p>
+                    <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.carbohydrates}</p>
                 </li>
             </ul>
         </div>

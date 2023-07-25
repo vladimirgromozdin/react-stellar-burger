@@ -32,6 +32,11 @@ function ProfileForm() {
         dispatch(updateUserProfile(nameValue, emailValue))
     }
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        handleSaveClick()
+    }
+
     const handleCancelClick = () => {
         setNameValue(userName)
         setEmailValue(userEmail)
@@ -55,13 +60,12 @@ function ProfileForm() {
             <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете <br/> изменить свои
                 персональные данные</p>
         </nav>
-        <form className={`${styles.profileForm} ml-15`}>
+        <form className={`${styles.profileForm} ml-15`} onSubmit={handleFormSubmit}>
             <Input type={"text"} icon={'EditIcon'} value={nameValue} onChange={onNameChange} placeholder='Имя'/>
             <EmailInput isIcon={true} value={emailValue} onChange={onEmailChange}/>
             <PasswordInput icon={'EditIcon'} value={passwordValue} onChange={onPasswordChange}/>
             <div>
-                <Button disabled={!isModified} htmlType="button" type="primary" size="medium" extraClass="mb-20"
-                        onClick={handleSaveClick}>
+                <Button disabled={!isModified} htmlType="submit" type="primary" size="medium" extraClass="mb-20">
                     Сохранить
                 </Button>
                 <Button style={{padding: "0px 0px 0px 24px"}} cellSpacing={0}

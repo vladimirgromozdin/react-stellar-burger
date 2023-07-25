@@ -1,10 +1,9 @@
 import React from "react";
 import styles from "../order-details/order-details.module.css";
 import doneIconPath from "../../images/done.png"
-import {orderDetailsPropType} from "../../utils/prop-types";
 import {useSelector} from "react-redux";
 
-function OrderDetails({onClose}) {
+function OrderDetails() {
     const orderId = useSelector(store => store.orderDetails.orderId)
 
     return (<div className={`${styles.content} pt-10 pr-10 pl-10 pb-4`}>
@@ -17,6 +16,5 @@ function OrderDetails({onClose}) {
     </div>)
 }
 
-OrderDetails.propTypes = orderDetailsPropType;
 
 export default OrderDetails

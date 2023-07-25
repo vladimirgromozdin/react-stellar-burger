@@ -24,13 +24,17 @@ function RegisterForm() {
     const handleRegisterClick = () => {
         dispatch(registerUser(emailValue, passwordValue, nameValue))
     }
+    const handleRegisterFormSubmit = (e) => {
+        e.preventDefault()
+        handleRegisterClick()
+    }
 
-    return (<form className={styles.registerForm}>
+    return (<form className={styles.registerForm} onSubmit={handleRegisterFormSubmit}>
         <p className="text text_type_main-medium pb-10">Регистрация</p>
         <Input value={nameValue} onChange={onNameChange} placeholder='Имя' extraClass="mb-6"/>
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} extraClass="mb-6"/>
-        <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={handleRegisterClick}>
+        <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20" >
             Зарегистрироваться
         </Button>
         <div className={`${styles.signIn} mb-4`}>

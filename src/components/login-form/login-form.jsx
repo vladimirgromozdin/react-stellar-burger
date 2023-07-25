@@ -20,12 +20,17 @@ function LoginForm() {
         dispatch(loginRequest(emailValue, passwordValue, navigate))
     }
 
-    return (<form className={styles.loginForm}>
+    const handleLoginFormSubmit = (e) => {
+        e.preventDefault()
+        handleLoginClick()
+    }
+
+    return (<form className={styles.loginForm} onSubmit={handleLoginFormSubmit}>
         <p className="text text_type_main-medium pb-10">Вход</p>
         {/*TODO Modify inputs styling so the don't jump around when there's an error message*/}
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} extraClass="mb-6"/>
-        <Button onClick={handleLoginClick} htmlType="button" type="primary" size="medium" extraClass="mb-20">
+        <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
             Войти
         </Button>
         <div className={`${styles.newUser} mb-4`}>

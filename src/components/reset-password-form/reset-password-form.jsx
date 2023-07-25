@@ -20,6 +20,11 @@ function ResetPasswordForm() {
         dispatch(resetPassword(passwordValue, tokenValue))
     }
 
+    const handleResetPasswordFormSubmit = (e) => {
+        e.preventDefault()
+        handleResetPasswordClick()
+    }
+
     const location = useLocation()
     const navigate = useNavigate()
     useEffect(() => {
@@ -30,12 +35,12 @@ function ResetPasswordForm() {
     // Making sure that user can only access the '/reset-password' URL
     // after he actually visited '/forgot-password' page
 
-    return (<form className={styles.resetPasswordForm}>
+    return (<form className={styles.resetPasswordForm} onSubmit={handleResetPasswordFormSubmit}>
         <p className="text text_type_main-medium pb-10">Восстановление пароля</p>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} placeholder='Введите новый пароль'
                        extraClass="mb-6"/>
         <Input value={tokenValue} onChange={onTokenChange} placeholder='Введите код из письма' extraClass="mb-6"/>
-        <Button onClick={handleResetPasswordClick} htmlType="button" type="primary" size="medium" extraClass="mb-20">
+        <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
             Сохранить
         </Button>
         <div className={styles.rememberPassword}>

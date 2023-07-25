@@ -17,13 +17,21 @@ function ForgotPasswordForm() {
         if (!emailRegex.test(emailValue)) {
             return;
         }
-        dispatch(requestPasswordChangeEmail(emailValue))
-        navigate('/reset-password', {state: {from: '/forgot-password'}});
+
+        dispatch(requestPasswordChangeEmail(emailValue, {
+            onSuccess: () => navigate('/reset-password', {state: {from: '/forgot-password'}}),
+        }));
     }
-    return (<form className={styles.forgotPasswordForm}>
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        handleRecoverPasswordClick()
+    }
+
+    return (<form className={styles.forgotPasswordForm} onSubmit={handleFormSubmit}>
         <p className="text text_type_main-medium pb-10">Восстановление пароля</p>
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
-        <Button onClick={handleRecoverPasswordClick} disabled={!emailValue} htmlType="button" type="primary"
+        <Button disabled={!emailValue} htmlType="submit" type="primary"
                 size="medium"
                 extraClass="mb-20">
             Восстановить
