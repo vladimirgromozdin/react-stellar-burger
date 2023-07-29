@@ -54,7 +54,7 @@ function BurgerIngredients() {
 
     return (
         <section className={styles.content}>
-            <h2 className={`${styles.title} text text_type_main-large pl-5 mt-10 mb-5`}>Соберите бургер</h2>
+            <h2 className={`${styles.title} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h2>
             <div className={styles.tabs}>
                 <Tab value="bun" active={current === 'bun'} onClick={() => handleTabClick('bun')}>
                     Булки

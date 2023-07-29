@@ -15,6 +15,7 @@ import {OnlyAuth, OnlyUnAuth} from "../protected-route/protected-route";
 import PageNotFount from "../../pages/404/404";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import Feed from "../../pages/feed/feed";
 
 function App() {
     const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
+                    <Route path="/feed" element={<Feed/>}/>
                     <Route path="/login" element={<OnlyUnAuth component={<Login/>}/>}/>
                     <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>

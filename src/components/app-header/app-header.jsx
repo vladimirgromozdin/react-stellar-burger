@@ -8,6 +8,7 @@ function AppHeader() {
     const matchConstructor = useMatch("/");
     const matchProfile = useMatch("/profile");
     const matchLogin = useMatch("/login")
+    const matchFeed = useMatch("/feed")
     const matchForgotPassword = useMatch("/forgot-password")
     const matchResetPassword = useMatch("/reset-password")
     return (<nav className={`${styles.appHeader} pt-4 pb-4`}>
@@ -17,10 +18,12 @@ function AppHeader() {
                 <p className="text text_type_main-default ml-2">Конструктор</p>
             </li>
         </Link>
-            <li className={`${styles.menuItem} ml-5 mr-5`}>
-                <ListIcon type={"secondary"}/>
-                <p className="text text_type_main-default ml-2">Лента заказов</p>
-            </li>
+            <Link className={styles.link} to='/feed'>
+                <li className={`${styles.menuItem} ml-5 mr-5 ${matchFeed ? styles.activeMenuItem : ''}`}>
+                    <ListIcon type={"secondary"}/>
+                    <p className="text text_type_main-default ml-2">Лента заказов</p>
+                </li>
+            </Link>
         </ul>
         <div className={styles.logo}><Logo/></div>
         <div className={styles.rightNavMenu}>
