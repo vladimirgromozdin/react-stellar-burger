@@ -2,8 +2,10 @@ import React from 'react';
 import styles from '../order-feed/order-feed.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-function OrderFeed(props) {
-    return (<div className={`${styles.feed} custom-scroll`}>
+function OrderFeed({  feedPersonal }) {
+    const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral
+    // Apply the styling to the order feed based on the props
+    return (<div className={`${className} custom-scroll`}>
         <div className={styles.orderCard}>
             <div className={styles.orderDetails}>
                 <div className={styles.orderTechDetails}>

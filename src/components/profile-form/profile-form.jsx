@@ -2,8 +2,7 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import React, {useEffect, useState} from "react";
 import styles from "./profile-form.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {logout, updateUserProfile} from "../../services/actions/profileForm";
-import {Link} from "react-router-dom";
+import {updateUserProfile} from "../../services/actions/profileForm";
 
 function ProfileForm() {
     const userName = useSelector(store => store.checkAuth.user?.name || '');
@@ -41,25 +40,9 @@ function ProfileForm() {
         setNameValue(userName)
         setEmailValue(userEmail)
     }
-    const handleLogoutClick = () => {
-        dispatch(logout())
-    }
 
 
     return (<div className={styles.profileSection}>
-        <nav className={styles.navElement}>
-            <ul className={`${styles.leftNav} text mb-20`}>
-                <Link className={styles.link} to='/profile'>
-                    <li className={`${styles.navItem} text_type_main-medium`}>Профиль</li>
-                </Link>
-                <li className={`${styles.navItem} text_type_main-medium text_color_inactive`}>История заказов</li>
-                <li onClick={handleLogoutClick}
-                    className={`${styles.navItem} text_type_main-medium text_color_inactive`}>Выход
-                </li>
-            </ul>
-            <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете <br/> изменить свои
-                персональные данные</p>
-        </nav>
         <form className={`${styles.profileForm} ml-15`} onSubmit={handleFormSubmit}>
             <Input type={"text"} icon={'EditIcon'} value={nameValue} onChange={onNameChange} placeholder='Имя'/>
             <EmailInput isIcon={true} value={emailValue} onChange={onEmailChange}/>

@@ -7,7 +7,6 @@ import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import Login from "../../pages/login/login";
-import Profile from "../../pages/profile/profile";
 import {checkUserAuth} from "../../services/api";
 import Homepage from "../../pages/home/home";
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
@@ -16,6 +15,10 @@ import PageNotFount from "../../pages/404/404";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import Feed from "../../pages/feed/feed";
+import ProfileForm from "../profile-form/profile-form";
+import Profile from "../../pages/profile/profile";
+import OrderFeed from "../order-feed/order-feed";
+import OrderDescription from "../order-description/order-description";
 
 function App() {
     const location = useLocation();
@@ -40,11 +43,15 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
                     <Route path="/feed" element={<Feed/>}/>
+                    <Route path="/feed/:id" element={<OrderDescription/>}/>
                     <Route path="/login" element={<OnlyUnAuth component={<Login/>}/>}/>
                     <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
                     <Route path="/register" element={<OnlyUnAuth component={<Register/>}/>}/>
-                    <Route path="/profile" element={<OnlyAuth component={<Profile/>}/>}/>
+                    <Route path="/profile" element={<OnlyAuth component={<Profile/>}/>}>
+                        <Route index element={<ProfileForm />} />
+                        <Route path="/profile/orders" element={<OrderFeed feedPersonal />} />
+                    </Route>
                     <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
                     <Route path="*" element={<PageNotFount/>}/>
                 </Routes>

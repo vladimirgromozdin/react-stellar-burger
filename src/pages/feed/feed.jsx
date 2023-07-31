@@ -8,7 +8,7 @@ function Feed(props) {
         <div className={styles.feedSection}>
             <h2 className="text text_type_main-large">Лента заказов</h2>
             <div className={styles.feedContent}>
-                <OrderFeed/>
+                <OrderFeed />
                 <OrderStats/>
             </div>
         </div>
