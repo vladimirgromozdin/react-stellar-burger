@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import thunk from "redux-thunk";
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 import {applyMiddleware, createStore} from 'redux';
 import {composeWithDevTools} from '@redux-devtools/extension';
 import rootReducer from "./services/reducers";

@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import AppHeader from "../app-header/app-header";
 import styles from "./app.module.css";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getIngredients} from "../../services/actions/burgerIngredients";
 import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
@@ -53,8 +53,9 @@ function App() {
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
                     <Route path="/register" element={<OnlyUnAuth component={<Register/>}/>}/>
                     <Route path="/profile" element={<OnlyAuth component={<Profile/>}/>}>
-                        <Route index element={<ProfileForm/>} />
-                        <Route path="/profile/orders" element={<OrderFeed feedPersonal={true} wsUrl={`wss://norma.nomoreparties.space/orders?token=${accessToken}`} />} />
+                        <Route index element={<ProfileForm/>}/>
+                        <Route path="/profile/orders" element={<OrderFeed feedPersonal={true}
+                                                                          wsUrl={`wss://norma.nomoreparties.space/orders?token=${accessToken}`}/>}/>
                     </Route>
                     <Route path="/ingredients/:id" element={background ? '' : <IngredientDetails/>}/>
                     <Route path="*" element={<PageNotFount/>}/>
