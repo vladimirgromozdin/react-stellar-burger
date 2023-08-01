@@ -9,6 +9,7 @@ import {registerUserReducer} from "./registerForm";
 import {loginReducer} from "./loginForm";
 import {profileFormReducer} from "./profileForm";
 import {checkAuthReducer} from "./checkAuth";
+import {wsReducer} from "./wsReducer";
 
 
 const rootReducer = combineReducers({
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     registerUser: registerUserReducer,
     login: loginReducer,
     profileForm: profileFormReducer,
-    checkAuth: checkAuthReducer
+    checkAuth: checkAuthReducer,
+    ws: wsReducer
 });
 
 export default rootReducer;

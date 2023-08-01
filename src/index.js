@@ -9,8 +9,9 @@ import {applyMiddleware, createStore} from 'redux';
 import {composeWithDevTools} from '@redux-devtools/extension';
 import rootReducer from "./services/reducers";
 import {Provider} from "react-redux";
+import {socketMiddleware} from "./services/middleware/socketMiddleware";
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketMiddleware('wss://norma.nomoreparties.space/orders/all'))));
 
 ReactDOM.render(<React.StrictMode>
     <Provider store={store}>

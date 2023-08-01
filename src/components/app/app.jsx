@@ -49,7 +49,7 @@ function App() {
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
                     <Route path="/register" element={<OnlyUnAuth component={<Register/>}/>}/>
                     <Route path="/profile" element={<OnlyAuth component={<Profile/>}/>}>
-                        <Route index element={<ProfileForm />} />
+                        <Route index element={<ProfileForm/>} />
                         <Route path="/profile/orders" element={<OrderFeed feedPersonal />} />
                     </Route>
                     <Route path="/ingredients/:id" element={<IngredientDetails/>}/>

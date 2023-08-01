@@ -31,7 +31,6 @@ function ProfilePage() {
                     персональные данные</p>
             </nav>
             <Outlet />
-            {/*<ProfileForm />*/}
         </section>
     );
 }

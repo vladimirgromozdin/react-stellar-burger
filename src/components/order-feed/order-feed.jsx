@@ -1,250 +1,73 @@
-import React from 'react';
-import styles from '../order-feed/order-feed.module.css'
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useEffect} from 'react';
+import styles from '../order-feed/order-feed.module.css';
+import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useDispatch, useSelector} from "react-redux";
 
-function OrderFeed({  feedPersonal }) {
-    const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral
-    // Apply the styling to the order feed based on the props
-    return (<div className={`${className} custom-scroll`}>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
+function OrderFeed({feedPersonal}) {
+    const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral;
+    const dispatch = useDispatch();
+    const orders = useSelector(store => store.ws.orders);
+    const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
+
+    useEffect(() => {
+        dispatch({type: 'WS_CONNECTION_START'});
+        return () => {
+            dispatch({type: 'WS_CONNECTION_CLOSE'});
+        };
+    }, [dispatch]);
+
+    return (
+        <div className={`${className} custom-scroll`}>
+            {orders.map((order, index) => {
+                const ingredients = order.ingredients.map(ingredientId => {
+                    const ingredientData = allIngredients.find(ingredient => ingredient._id === ingredientId);
+                    return ingredientData ? ingredientData : null;
+                });
+                const totalPrice = ingredients.reduce((total, ingredient) => {
+                    return total + (ingredient ? ingredient.price : 0);
+                }, 0);
+
+                const extraIngredients = ingredients.length > 6 ? ingredients.length - 6 : 0;
+
+                return (
+                    <div key={index} className={styles.orderCard}>
+                        <div className={styles.orderDetails}>
+                            <div className={styles.orderTechDetails}>
+                                <p className="text text_type_digits-default">{order.number}</p>
+                                <p className="text text_type_main-default text_color_inactive">
+                                    <FormattedDate date={new Date(order.createdAt)} />
+                                </p>
+                            </div>
+                            <p className="text text_type_main-medium">{order.name}</p>
+                            <div className={styles.orderVisualisation}>
+                                <div className={styles.orderIngredients}>
+                                    <ul className={styles.ingredientsList}>
+                                        {ingredients.slice(0, 6).map((ingredient, index) => (
+                                            <li key={index} className={styles.ingredientBorder}>
+                                                {ingredient ?
+                                                    <img className={styles.ingredient}
+                                                         src={ingredient.image_mobile}
+                                                         alt={ingredient.name} />
+                                                    : null}
+                                            </li>
+                                        ))}
+                                        {extraIngredients > 0 &&
+                                            <li className={`${styles.ingredientBorderDarkened}  text text_type_digits-default`}>
+                                                <p className={styles.ingredientsExtra}>+{extraIngredients}</p></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div className={styles.orderCost}>
+                                    <p className="text text_type_digits-default pr-2">{totalPrice}</p>
+                                    <CurrencyIcon type={"primary"}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
+                );
+            })}
         </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className={styles.orderCard}>
-            <div className={styles.orderDetails}>
-                <div className={styles.orderTechDetails}>
-                    <p className="text text_type_digits-default">#034535</p>
-                    <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-                </div>
-                <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                <div className={styles.orderVisualisation}>
-                    <div className={styles.orderIngredients}>
-                        <ul className={styles.ingredientsList}>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/bun-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/sauce-02-mobile.png'
-                                                                         alt='img'/></li>
-                            <li className={styles.ingredientBorder}><img className={styles.ingredient}
-                                                                         src='https://code.s3.yandex.net/react/code/meat-02-mobile.png'
-                                                                         alt='img'/></li>
-                        </ul>
-                    </div>
-                    <div className={styles.orderCost}>
-                        <p className="text text_type_digits-default pr-2">120</p>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>);
+    );
 }
 
 export default OrderFeed;
