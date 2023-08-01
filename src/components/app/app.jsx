@@ -25,9 +25,9 @@ function App() {
     const location = useLocation();
     const background = location.state && location.state.background;
     const dispatch = useDispatch();
-    const navigate = useNavigate()
-    const accessTokenWithBearer = getCookie('accessToken')
-    const accessToken = accessTokenWithBearer.split(' ')[1]
+    const navigate = useNavigate();
+    const accessTokenWithBearer = getCookie('accessToken');
+    const accessToken = accessTokenWithBearer?.split(' ')[1];
 
     useEffect(() => {
         dispatch(checkUserAuth());
@@ -46,7 +46,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
                     <Route path="/feed" element={<Feed/>}/>
-                    <Route path="/feed/:id" element={<OrderDescription/>}/>
+                    <Route path="/feed/:orderNumber" element={background ? '' : <OrderDescription/>}/>
+                    <Route path="/profile/orders/:orderNumber" element={background ? '' : <OrderDescription/>}/>
                     <Route path="/login" element={<OnlyUnAuth component={<Login/>}/>}/>
                     <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
@@ -55,7 +56,7 @@ function App() {
                         <Route index element={<ProfileForm/>} />
                         <Route path="/profile/orders" element={<OrderFeed feedPersonal={true} wsUrl={`wss://norma.nomoreparties.space/orders?token=${accessToken}`} />} />
                     </Route>
-                    <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
+                    <Route path="/ingredients/:id" element={background ? '' : <IngredientDetails/>}/>
                     <Route path="*" element={<PageNotFount/>}/>
                 </Routes>
                 {background && (
@@ -65,6 +66,22 @@ function App() {
                             element={
                                 <Modal onClose={() => navigate(-1)}>
                                     <IngredientDetails/>
+                                </Modal>
+                            }
+                        />
+                        <Route
+                            path="/feed/:orderNumber"
+                            element={
+                                <Modal showCloseIcon={false} onClose={() => navigate(-1)}>
+                                    <OrderDescription/>
+                                </Modal>
+                            }
+                        />
+                        <Route
+                            path="/profile/orders/:orderNumber"
+                            element={
+                                <Modal showCloseIcon={false} onClose={() => navigate(-1)}>
+                                    <OrderDescription/>
                                 </Modal>
                             }
                         />

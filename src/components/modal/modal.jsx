@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("modalRender");
 
 
 function Modal(props) {
-    const {children, onClose} = props;
+    const {children, onClose, showCloseIcon = true} = props;
 
     useEffect(() => {
         const handleEscPress = (event) => {
@@ -37,7 +37,8 @@ function Modal(props) {
                 <ModalOverlay onClose={handleOverlayClick}/>
                 <div className={styles.modalContent}>
                     {children}
-                    <div className={styles.closeIcon}><CloseIcon type={"primary"} onClick={onClose}/></div>
+                    {showCloseIcon &&
+                        <div className={styles.closeIcon}><CloseIcon type={"primary"} onClick={onClose}/></div>}
                 </div>
             </div>
         </>, modalRoot);
