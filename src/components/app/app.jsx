@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import AppHeader from "../app-header/app-header";
 import styles from "./app.module.css";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../../services/actions/burgerIngredients";
 import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
@@ -19,12 +19,15 @@ import ProfileForm from "../profile-form/profile-form";
 import Profile from "../../pages/profile/profile";
 import OrderFeed from "../order-feed/order-feed";
 import OrderDescription from "../order-description/order-description";
+import {getCookie} from "../../services/utils";
 
 function App() {
     const location = useLocation();
     const background = location.state && location.state.background;
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const accessTokenWithBearer = getCookie('accessToken')
+    const accessToken = accessTokenWithBearer.split(' ')[1]
 
     useEffect(() => {
         dispatch(checkUserAuth());
@@ -50,7 +53,7 @@ function App() {
                     <Route path="/register" element={<OnlyUnAuth component={<Register/>}/>}/>
                     <Route path="/profile" element={<OnlyAuth component={<Profile/>}/>}>
                         <Route index element={<ProfileForm/>} />
-                        <Route path="/profile/orders" element={<OrderFeed feedPersonal />} />
+                        <Route path="/profile/orders" element={<OrderFeed feedPersonal={true} wsUrl={`wss://norma.nomoreparties.space/orders?token=${accessToken}`} />} />
                     </Route>
                     <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
                     <Route path="*" element={<PageNotFount/>}/>

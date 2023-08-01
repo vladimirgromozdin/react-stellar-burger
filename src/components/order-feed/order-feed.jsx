@@ -3,22 +3,23 @@ import styles from '../order-feed/order-feed.module.css';
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 
-function OrderFeed({feedPersonal}) {
+function OrderFeed({feedPersonal, wsUrl}) {
     const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral;
     const dispatch = useDispatch();
     const orders = useSelector(store => store.ws.orders);
+    const sortedOrders = feedPersonal ? [...orders].reverse() : orders;
     const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
-
     useEffect(() => {
-        dispatch({type: 'WS_CONNECTION_START'});
+        dispatch({type: 'WS_CONNECTION_START', payload: {wsUrl}});
         return () => {
             dispatch({type: 'WS_CONNECTION_CLOSE'});
         };
-    }, [dispatch]);
+    }, [dispatch, wsUrl]);
 
     return (
         <div className={`${className} custom-scroll`}>
-            {orders.map((order, index) => {
+
+            {sortedOrders.map((order, index) => {
                 const ingredients = order.ingredients.map(ingredientId => {
                     const ingredientData = allIngredients.find(ingredient => ingredient._id === ingredientId);
                     return ingredientData ? ingredientData : null;
@@ -35,7 +36,7 @@ function OrderFeed({feedPersonal}) {
                             <div className={styles.orderTechDetails}>
                                 <p className="text text_type_digits-default">{order.number}</p>
                                 <p className="text text_type_main-default text_color_inactive">
-                                    <FormattedDate date={new Date(order.createdAt)} />
+                                    <FormattedDate date={new Date(order.createdAt)}/>
                                 </p>
                             </div>
                             <p className="text text_type_main-medium">{order.name}</p>
@@ -47,7 +48,7 @@ function OrderFeed({feedPersonal}) {
                                                 {ingredient ?
                                                     <img className={styles.ingredient}
                                                          src={ingredient.image_mobile}
-                                                         alt={ingredient.name} />
+                                                         alt={ingredient.name}/>
                                                     : null}
                                             </li>
                                         ))}
