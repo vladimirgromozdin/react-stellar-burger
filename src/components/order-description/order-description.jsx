@@ -49,7 +49,7 @@ function OrderDescription(props) {
                             <p className={`${styles.ingredientName} text text_type_main-default pl-4`}>{ingredient.name}</p>
                         </div>
                         <div className={styles.ingredientPrice}>
-                            <p className="text text_type_digits-default pr-2">20</p>
+                            <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
                             <CurrencyIcon type={"primary"}/>
                         </div>
                     </li>

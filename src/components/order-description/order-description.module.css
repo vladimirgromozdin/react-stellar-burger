@@ -1,7 +1,7 @@
 .orderContainer {
     display: flex;
     flex-direction: column;
-    max-width: 640px;
+    width: 640px;
     margin: 0 auto;
     align-content: center;
     z-index: 4;
@@ -73,4 +73,5 @@ display: flex;
 
 .ingredientName {
     max-width: 440px;
+    text-wrap: balance;
 }
