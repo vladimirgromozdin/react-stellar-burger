@@ -43,11 +43,11 @@ function App() {
                 <AppHeader/>
             </header>
             <main>
-                <Routes>
+                <Routes location = {background || location}>
                     <Route path="/" element={<Homepage/>}/>
                     <Route path="/feed" element={<Feed/>}/>
-                    <Route path="/feed/:orderNumber" element={background ? '' : <OrderDescription/>}/>
-                    <Route path="/profile/orders/:orderNumber" element={background ? '' : <OrderDescription/>}/>
+                    <Route path="/feed/:orderNumber" element={<OrderDescription/>}/>
+                    <Route path="/profile/orders/:orderNumber" element={<OnlyAuth component={<OrderDescription/>}/>}/>
                     <Route path="/login" element={<OnlyUnAuth component={<Login/>}/>}/>
                     <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
@@ -57,34 +57,15 @@ function App() {
                         <Route path="/profile/orders" element={<OrderFeed feedPersonal={true}
                                                                           wsUrl={`wss://norma.nomoreparties.space/orders?token=${accessToken}`}/>}/>
                     </Route>
-                    <Route path="/ingredients/:id" element={background ? '' : <IngredientDetails/>}/>
+                    <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
                     <Route path="*" element={<PageNotFount/>}/>
                 </Routes>
                 {background && (
                     <Routes>
-                        <Route
-                            path="/ingredients/:id"
-                            element={
-                                <Modal onClose={() => navigate(-1)}>
-                                    <IngredientDetails/>
-                                </Modal>
-                            }
-                        />
-                        <Route
-                            path="/feed/:orderNumber"
-                            element={
-                                <Modal showCloseIcon={false} onClose={() => navigate(-1)}>
-                                    <OrderDescription/>
-                                </Modal>
-                            }
-                        />
-                        <Route
-                            path="/profile/orders/:orderNumber"
-                            element={
-                                <Modal showCloseIcon={false} onClose={() => navigate(-1)}>
-                                    <OrderDescription/>
-                                </Modal>
-                            }
+                        <Route path="/ingredients/:id"
+                               element={<Modal onClose={() => navigate(-1)}>
+                                   <IngredientDetails/>
+                               </Modal>}
                         />
                     </Routes>
                 )}
@@ -94,3 +75,6 @@ function App() {
 }
 
 export default App;
+
+
+

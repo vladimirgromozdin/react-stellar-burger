@@ -40,15 +40,13 @@ function BurgerConstructor() {
 
     const constructorIngredients = useSelector(store => store.burgerConstructor.constructorIngredients)
 
-    const ingredientsIds = useMemo(() => {
-        return constructorIngredients.map(ingredient => ingredient._id)
-    }, [constructorIngredients])
-
-    const ingredientsTotal = useMemo(() => {
-        return constructorIngredients.length > 0
+    const { ingredientsIds, ingredientsTotal } = useMemo(() => {
+        const ids = constructorIngredients.map(ingredient => ingredient._id);
+        const total = constructorIngredients.length > 0
             ? constructorIngredients.reduce((acc, currentItem) => acc + currentItem.price, 0)
             : 0;
-    }, [constructorIngredients])
+        return { ingredientsIds: ids, ingredientsTotal: total };
+    }, [constructorIngredients]);
 
     const handleSendOrder = useCallback(() => {
         dispatch(getOrderDetails(ingredientsIds, user, navigate));

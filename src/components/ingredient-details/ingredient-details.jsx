@@ -23,7 +23,7 @@ function IngredientDetails(props) {
                     <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
                     <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.calories}</p>
                 </li>
-                <li className={styles.nutritionData}>g
+                <li className={styles.nutritionData}>
                     <p className="text text_type_main-default text_color_inactive">Белки, г</p>
                     <p className="text text_type_digits-default text_color_inactive">{ingredientDetails?.proteins}</p>
                 </li>
