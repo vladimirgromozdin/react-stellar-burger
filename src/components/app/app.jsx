@@ -67,6 +67,16 @@ function App() {
                                    <IngredientDetails/>
                                </Modal>}
                         />
+                        <Route path="/profile/orders/:orderNumber"
+                               element={<Modal onClose={() => navigate(-1)}>
+                                   <OrderDescription isModal={true}/>
+                               </Modal>}
+                        />
+                        <Route path="/feed/:orderNumber"
+                               element={<Modal onClose={() => navigate(-1)}>
+                                   <OrderDescription isModal={true}/>
+                               </Modal>}
+                        />
                     </Routes>
                 )}
             </main>

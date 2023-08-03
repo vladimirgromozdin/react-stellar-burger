@@ -15,7 +15,7 @@ function OrderFeed({feedPersonal, wsUrl}) {
     useEffect(() => {
         dispatch({type: 'WS_CONNECTION_START', payload: {wsUrl}});
         return () => {
-            dispatch({type: 'WS_CONNECTION_CLOSE'});
+            dispatch({type: 'WS_CONNECTION_CLOSED'});
         };
     }, [dispatch, wsUrl]);
 
@@ -31,7 +31,7 @@ function OrderFeed({feedPersonal, wsUrl}) {
 
             const extraIngredients = ingredients.length > 6 ? ingredients.length - 6 : 0;
 
-            return (<Link key={index} className={styles.link}
+            return (<Link key={index} className={styles.link} state={{background: location}}
                           to={feedPersonal ? `/profile/orders/${order.number}` : `/feed/${order.number}`}
             >
                 <div className={styles.orderCard}>

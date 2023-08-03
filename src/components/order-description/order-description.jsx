@@ -7,6 +7,7 @@ import {fetchOrderDetails} from "../../services/actions/orderDescription";
 import {getIngredients} from "../../services/actions/burgerIngredients";
 
 function OrderDescription(props) {
+    const {isModal = false} = props;
     const [isLoading, setIsLoading] = useState(true);
 
     const orderStatusMapping = {
@@ -32,29 +33,30 @@ function OrderDescription(props) {
         return <div>Loading...</div>;
     }
     return (
-        <div className={styles.orderContainer}>
-            <p className={` ${styles.orderNumber} text text_type_digits-default pb-10`}>#{orderNumber}</p>
-            <h2 className='text text_type_main-medium pb-3'>{order.name}</h2>
-            <p className={` ${styles.orderStatus} text text_type_main-default pb-15`}>{orderStatusMapping[order.status] || order.status}</p>
-            <p className='text text_type_main-medium pb-6'>Состав:</p>
-            <ul className={`${styles.ingredientsList} custom-scroll`}>
-                {ingredientList && ingredientList.map((ingredient, index) => (
-                    <li key={index} className={styles.ingredient}>
-                        <div className={styles.ingredientWrapper}>
-                            <div className={styles.ingredientBorder}>
-                                <img className={styles.ingredientImage}
-                                     src={ingredient.image_mobile}
-                                     alt={ingredient.name}/>
+        <div className={isModal ? `${styles.orderContainerModal}` : `${styles.orderContainer}`}>
+            <div className={styles.orderDescriptionContent}><p className={` ${styles.orderNumber} text text_type_digits-default pb-10`}>#{orderNumber}</p>
+                <h2 className={`text text_type_main-medium pb-3`}>{order.name}</h2>
+                <p className={` ${styles.orderStatus} text text_type_main-default pb-15`}>{orderStatusMapping[order.status] || order.status}</p>
+                <p className='text text_type_main-medium pb-6'>Состав:</p>
+                <ul className={`${styles.ingredientsList} custom-scroll`}>
+                    {ingredientList && ingredientList.map((ingredient, index) => (
+                        <li key={index} className={styles.ingredient}>
+                            <div className={styles.ingredientWrapper}>
+                                <div className={styles.ingredientBorder}>
+                                    <img className={styles.ingredientImage}
+                                         src={ingredient.image_mobile}
+                                         alt={ingredient.name}/>
+                                </div>
+                                <p className={`${styles.ingredientName} text text_type_main-default pl-4`}>{ingredient.name}</p>
                             </div>
-                            <p className={`${styles.ingredientName} text text_type_main-default pl-4`}>{ingredient.name}</p>
-                        </div>
-                        <div className={styles.ingredientPrice}>
-                            <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
-                            <CurrencyIcon type={"primary"}/>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                            <div className={styles.ingredientPrice}>
+                                <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
+                                <CurrencyIcon type={"primary"}/>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }

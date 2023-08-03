@@ -4,12 +4,40 @@
     width: 640px;
     margin: 0 auto;
     align-content: center;
-    z-index: 4;
+    z-index: 12;
     position: relative;
 }
 
-.orderNumber {
+
+.orderContainerModal {
+    display: flex;
+    flex-direction: column;
+    max-height: 640px;
+    overflow: hidden;
+    width: 720px;
+    margin: 0 auto;
+    align-content: center;
+    z-index: 12;
+    position: relative;
+    background-color: #1C1C21;
+    border-radius: 40px;
+}
+
+.orderDescriptionContent {
     align-self: center;
+    padding: 60px 60px;
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+    margin: 0;
+    align-content: center;
+    z-index: 4;
+    position: relative;
+    border-radius: 40px;
+}
+
+.orderNumber {
+    align-self: flex-start;
 }
 
 .orderStatus {
