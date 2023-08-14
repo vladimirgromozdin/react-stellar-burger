@@ -1,4 +1,3 @@
-// TODO Make every ingredient a separate component for proper click behavior
 import React, {useEffect, useRef, useState} from "react";
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -21,7 +20,9 @@ function BurgerIngredients() {
     }, []);
 
     const handleScroll = (e) => {
-        // TODO Tweak the accuracy of scroll tracking
+        if (!bunTabRef.current || !sauceTabRef.current || !mainTabRef.current) {
+            return;
+        }
         const bunPosition = Math.abs(bunTabRef.current.getBoundingClientRect().top - tabsHeight);
         const saucePosition = Math.abs(sauceTabRef.current.getBoundingClientRect().top - tabsHeight);
         const mainPosition = Math.abs(mainTabRef.current.getBoundingClientRect().top - tabsHeight);
@@ -53,7 +54,7 @@ function BurgerIngredients() {
 
     return (
         <section className={styles.content}>
-            <h2 className={`${styles.title} text text_type_main-large pl-5 mt-10 mb-5`}>Соберите бургер</h2>
+            <h2 className={`${styles.title} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h2>
             <div className={styles.tabs}>
                 <Tab value="bun" active={current === 'bun'} onClick={() => handleTabClick('bun')}>
                     Булки

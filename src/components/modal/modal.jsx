@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import styles from "../modal/modal.module.css"
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import {modalPropType} from "../../utils/prop-types";
+import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const modalRoot = document.getElementById("modalRender");
 
 
 function Modal(props) {
-    const {children, onClose} = props;
+    const {children, onClose, showCloseIcon = true} = props;
 
     useEffect(() => {
         const handleEscPress = (event) => {
@@ -34,7 +35,11 @@ function Modal(props) {
         <>
             <div className={styles.modal}>
                 <ModalOverlay onClose={handleOverlayClick}/>
-                {children}
+                <div className={styles.modalContent}>
+                    {children}
+                    {showCloseIcon &&
+                        <div className={styles.closeIcon}><CloseIcon type={"primary"} onClick={onClose}/></div>}
+                </div>
             </div>
         </>, modalRoot);
 }

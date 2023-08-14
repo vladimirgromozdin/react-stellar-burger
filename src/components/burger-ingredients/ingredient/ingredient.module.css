@@ -5,6 +5,7 @@
     max-width: 240px;
     box-sizing: content-box;
     cursor: grab;
+    text-decoration: none;
 }
 
 .ingredientName {
@@ -22,4 +23,13 @@
     display: flex;
     align-content: center;
     align-items: center;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.link:visited {
+    color: inherit;
 }
