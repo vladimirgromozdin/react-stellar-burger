@@ -21,6 +21,7 @@ import OrderFeed from "../order-feed/order-feed";
 import OrderDescription from "../order-description/order-description";
 import {getCookie} from "../../services/utils";
 
+
 function App() {
     const location = useLocation();
     const background = location.state && location.state.background;

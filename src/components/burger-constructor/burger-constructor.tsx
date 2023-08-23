@@ -10,42 +10,42 @@ import {addIngredientToConstructor} from "../../services/actions/burgerIngredien
 import {reorderIngredient} from "../../services/actions/burgerConstructor";
 import DraggableIngredient from "./draggable-ingredient/draggableIngredient";
 import {useNavigate} from "react-router-dom";
+import {DragItem, IIngredient} from "../../services/types";
 
 
 function BurgerConstructor() {
-    const user = useSelector((store) => store.checkAuth.user);
+    const user = useSelector((store: any) => store.checkAuth.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const moveIngredient = useCallback(
-        (dragIndex, hoverIndex) => {
+        (dragIndex: number, hoverIndex: number) => {
             dispatch(reorderIngredient(dragIndex, hoverIndex));
         },
         [dispatch]
     );
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(item, monitor) {
+        drop(item: DragItem, monitor) {
             onDropHandler(item);
         }
     })
 
-    const onDropHandler = (item) => {
+    const onDropHandler = (item: DragItem) => {
         const {ingredient} = item;
-        const isIngredientPresent = constructorIngredients.find(ing => ing.uniqueId === ingredient.uniqueId);
+        const isIngredientPresent = constructorIngredients.find((ing: IIngredient) => ing.uniqueId === ingredient.uniqueId);
         if (!isIngredientPresent) {
-            // Add the new ingredient to the constructor
             dispatch(addIngredientToConstructor(ingredient));
         }
     }
 
-    const constructorIngredients = useSelector(store => store.burgerConstructor.constructorIngredients)
+    const constructorIngredients = useSelector((store: any) => store.burgerConstructor.constructorIngredients)
 
-    const { ingredientsIds, ingredientsTotal } = useMemo(() => {
-        const ids = constructorIngredients.map(ingredient => ingredient._id);
+    const {ingredientsIds, ingredientsTotal} = useMemo(() => {
+        const ids = constructorIngredients.map((ingredient: IIngredient) => ingredient._id);
         const total = constructorIngredients.length > 0
-            ? constructorIngredients.reduce((acc, currentItem) => acc + currentItem.price, 0)
+            ? constructorIngredients.reduce((acc: number, currentItem: IIngredient) => acc + currentItem.price, 0)
             : 0;
-        return { ingredientsIds: ids, ingredientsTotal: total };
+        return {ingredientsIds: ids, ingredientsTotal: total};
     }, [constructorIngredients]);
 
     const handleSendOrder = useCallback(() => {
@@ -53,20 +53,20 @@ function BurgerConstructor() {
     }, [dispatch, ingredientsIds])
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOrderClick = () => {
+    const handleOrderClick = (): void => {
         handleSendOrder()
         setIsModalOpen(true);
     };
 
 
-    const handleModalClose = () => {
+    const handleModalClose = (): void => {
         setIsModalOpen(false);
     };
 
     // Check if ingredientsList is defined and not empty
     const hasIngredients = constructorIngredients && constructorIngredients.length > 0;
     // Finding the bun in the state
-    const bun = constructorIngredients.find(ingredient => ingredient.type === 'bun');
+    const bun = constructorIngredients.find((ingredient: IIngredient) => ingredient.type === 'bun');
     // Get the total cost of ingredients
 
 
@@ -87,7 +87,7 @@ function BurgerConstructor() {
             <div
                 className={`${styles.variableIngredientsList} custom-scroll removable-ingredients`}
             >
-                {constructorIngredients.filter((ingredient) => ingredient.type !== 'bun').map((ingredient, index) => {
+                {constructorIngredients.filter((ingredient: IIngredient) => ingredient.type !== 'bun').map((ingredient: IIngredient, index: number) => {
                     return (<DraggableIngredient
                         key={ingredient.uniqueId}
                         id={ingredient._id}
@@ -123,8 +123,7 @@ function BurgerConstructor() {
                 Оформить заказ
             </Button>
             {isModalOpen && (<Modal onClose={handleModalClose}>
-                <OrderDetails
-                    onClose={handleModalClose}/>
+                <OrderDetails/>
             </Modal>)}
         </div>
     </section>);
