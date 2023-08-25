@@ -9,25 +9,24 @@ function LoginForm() {
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const dispatch = useDispatch()
-    const onEmailChange = e => {
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmailValue(e.target.value)
     }
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPasswordValue(e.target.value)
     }
     const navigate = useNavigate();
-    const handleLoginClick = () => {
+    const handleLoginClick = (): void => {
         dispatch(loginRequest(emailValue, passwordValue, navigate))
     }
 
-    const handleLoginFormSubmit = (e) => {
+    const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         handleLoginClick()
     }
 
     return (<form className={styles.loginForm} onSubmit={handleLoginFormSubmit}>
         <p className="text text_type_main-medium pb-10">Вход</p>
-        {/*TODO Modify inputs styling so the don't jump around when there's an error message*/}
         <EmailInput value={emailValue} onChange={onEmailChange} isIcon={false} extraClass="mb-6"/>
         <PasswordInput value={passwordValue} onChange={onPasswordChange} extraClass="mb-6"/>
         <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">

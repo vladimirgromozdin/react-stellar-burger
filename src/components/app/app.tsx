@@ -47,8 +47,8 @@ function App() {
                 <Routes location = {background || location}>
                     <Route path="/" element={<Homepage/>}/>
                     <Route path="/feed" element={<Feed/>}/>
-                    <Route path="/feed/:orderNumber" element={<OrderDescription/>}/>
-                    <Route path="/profile/orders/:orderNumber" element={<OnlyAuth component={<OrderDescription/>}/>}/>
+                    <Route path="/feed/:orderNumber" element={<OrderDescription isModal={false}/>}/>
+                    <Route path="/profile/orders/:orderNumber" element={<OnlyAuth component={<OrderDescription isModal={false}/>}/>}/>
                     <Route path="/login" element={<OnlyUnAuth component={<Login/>}/>}/>
                     <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
                     <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword/>}/>}/>

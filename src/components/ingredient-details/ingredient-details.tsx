@@ -3,16 +3,17 @@ import styles from "../ingredient-details/ingredient-details.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {fetchIngredientDetails} from "../../services/actions/ingredientDetails";
+import {TIngredientDetailsProps} from "../../services/types";
 
 
-function IngredientDetails(props) {
+function IngredientDetails(props: TIngredientDetailsProps) {
     const dispatch = useDispatch();
     const {id} = useParams();
 
     useEffect(() => {
         dispatch(fetchIngredientDetails(id));
     }, [id, dispatch]);
-    const ingredientDetails = useSelector(store => store.ingredientDetails.ingredient);
+    const ingredientDetails = useSelector((store: any) => store.ingredientDetails.ingredient);
     return (
         <div className={`${styles.content} pt-10 pr-10 pl-10 pb-4`}>
             <h3 className={`${styles.headline} text text_type_main-large pt-10`}>Детали ингредиента</h3>

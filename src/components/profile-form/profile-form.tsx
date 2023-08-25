@@ -5,38 +5,38 @@ import {useDispatch, useSelector} from "react-redux";
 import {updateUserProfile} from "../../services/actions/profileForm";
 
 function ProfileForm() {
-    const userName = useSelector(store => store.checkAuth.user?.name || '');
-    const userEmail = useSelector(store => store.checkAuth.user?.email || '');
+    const userName: string = useSelector((store: any) => store.checkAuth.user?.name || '');
+    const userEmail: string = useSelector((store: any) => store.checkAuth.user?.email || '');
     const [nameValue, setNameValue] = useState(userName)
     const [emailValue, setEmailValue] = useState(userEmail)
     const [passwordValue, setPasswordValue] = useState('*******')
     const dispatch = useDispatch()
-    const isModified = userName !== nameValue || userEmail !== emailValue;
-    const onEmailChange = e => {
+    const isModified: boolean = userName !== nameValue || userEmail !== emailValue;
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmailValue(e.target.value)
     }
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPasswordValue(e.target.value)
     }
-    const onNameChange = e => {
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNameValue(e.target.value)
     }
 
-    useEffect(() => {
+    useEffect((): void => {
         setNameValue(userName);
         setEmailValue(userEmail);
     }, [userName, userEmail]);
 
-    const handleSaveClick = () => {
+    const handleSaveClick = (): void => {
         dispatch(updateUserProfile(nameValue, emailValue))
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         handleSaveClick()
     }
 
-    const handleCancelClick = () => {
+    const handleCancelClick = (): void => {
         setNameValue(userName)
         setEmailValue(userEmail)
     }

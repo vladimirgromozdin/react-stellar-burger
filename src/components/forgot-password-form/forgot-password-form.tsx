@@ -7,12 +7,12 @@ import {Link, useNavigate} from "react-router-dom";
 
 function ForgotPasswordForm() {
     const [emailValue, setEmailValue] = useState('')
-    const onEmailChange = e => {
+    const onEmailChange = (e: any) => {
         setEmailValue(e.target.value)
     }
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const handleRecoverPasswordClick = () => {
+    const handleRecoverPasswordClick = (): void => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(emailValue)) {
             return;
@@ -23,7 +23,7 @@ function ForgotPasswordForm() {
         }));
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: any) => {
         e.preventDefault()
         handleRecoverPasswordClick()
     }

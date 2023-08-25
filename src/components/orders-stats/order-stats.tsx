@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from '../orders-stats/order-stats.module.css'
 import {useSelector} from "react-redux";
+import {IOrder} from "../../services/types";
 
 function OrderStats() {
-    const ordersTotal = useSelector(store => store.ws.total)
-    const ordersToday = useSelector(store => store.ws.totalToday)
-    const orders = useSelector(store => store.ws.orders);
-    const doneOrdersIds = orders.filter(order => order.status === 'done').map(order => order.number)
-    const createdOrderIds = orders.filter(order => order.status === 'created').map(order => order.number)
+    const ordersTotal = useSelector((store: any) => store.ws.total)
+    const ordersToday = useSelector((store: any) => store.ws.totalToday)
+    const orders = useSelector((store: any) => store.ws.orders);
+    const doneOrdersIds: number[] = orders.filter((order: IOrder) => order.status === 'done').map((order: IOrder) => order.number)
+    const createdOrderIds: number[] = orders.filter((order: IOrder) => order.status === 'created').map((order: IOrder) => order.number)
     return (
         <div className={styles.stats}>
             <div className={styles.currentOrders}>

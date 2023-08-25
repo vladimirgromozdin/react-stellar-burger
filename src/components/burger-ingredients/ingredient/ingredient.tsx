@@ -6,16 +6,17 @@ import Modal from "../../modal/modal";
 import IngredientDetails from "../../ingredient-details/ingredient-details";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
+import {IIngredient, TIngredientProps} from "../../../services/types";
 
-function Ingredient({ingredient}) {
+function Ingredient({ingredient}: TIngredientProps) {
     const location = useLocation()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [, dragRef] = useDrag({
         type: 'ingredient',
         item: {ingredient}
     })
-    const ingredientsList = useSelector(store => store.burgerConstructor.constructorIngredients)
-    const ingredientCounter = ingredientsList.filter(item => item._id === ingredient._id).length
+    const ingredientsList = useSelector((store: any) => store.burgerConstructor.constructorIngredients)
+    const ingredientCounter: number = ingredientsList.filter((item: IIngredient) => item._id === ingredient._id).length
     const ingredientAdded = ingredientCounter > 0
 
     const handleModalClose = () => {

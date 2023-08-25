@@ -5,9 +5,9 @@ import {removeIngredientFromConstructor, reorderIngredient} from "../../../servi
 import {useDispatch, useSelector} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 
-import {IIngredient, DraggableIngredientProps, DragItem} from "../../../services/types";
+import {IIngredient, IDraggableIngredientProps, IDragItem} from "../../../services/types";
 
-function DraggableIngredient({ingredient}: DraggableIngredientProps) {
+function DraggableIngredient({ingredient}: IDraggableIngredientProps) {
     const [newIndex, setNewIndex] = useState(null);
     const dispatch = useDispatch();
     const constructorIngredients = useSelector((store: any) => store.burgerConstructor.constructorIngredients)
@@ -24,10 +24,10 @@ function DraggableIngredient({ingredient}: DraggableIngredientProps) {
 
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        hover(item: DragItem, monitor) {
+        hover(item: IDragItem, monitor) {
             setNewIndex(index);
         },
-        drop(item: DragItem, monitor) {
+        drop(item: IDragItem, monitor) {
             const {index} = item;
             if (newIndex !== null) {
                 dispatch(reorderIngredient(index, newIndex));

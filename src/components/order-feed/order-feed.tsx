@@ -3,13 +3,14 @@ import styles from '../order-feed/order-feed.module.css';
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useLocation} from "react-router-dom";
+import {IIngredient, IOrder, TOrderFeedProps} from "../../services/types";
 
-function OrderFeed({feedPersonal, wsUrl}) {
+function OrderFeed({feedPersonal, wsUrl}: TOrderFeedProps) {
     const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral;
     const dispatch = useDispatch();
-    const orders = useSelector(store => store.ws.orders);
+    const orders = useSelector((store: any) => store.ws.orders);
     const sortedOrders = feedPersonal ? [...orders].reverse() : orders;
-    const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
+    const allIngredients = useSelector((store: any) => store.burgerIngredients.ingredients);
     const location = useLocation();
 
     useEffect(() => {
@@ -20,16 +21,16 @@ function OrderFeed({feedPersonal, wsUrl}) {
     }, [dispatch, wsUrl]);
 
     return (<div className={`${className} custom-scroll`}>
-        {sortedOrders.map((order, index) => {
-            const ingredients = order.ingredients.map(ingredientId => {
-                const ingredientData = allIngredients.find(ingredient => ingredient._id === ingredientId);
+        {sortedOrders.map((order: IOrder, index: number) => {
+            const ingredients: IIngredient[] = order.ingredients.map((ingredientId: string) => {
+                const ingredientData = allIngredients.find((ingredient: IIngredient) => ingredient._id === ingredientId);
                 return ingredientData ? ingredientData : null;
             });
-            const totalPrice = ingredients.reduce((total, ingredient) => {
+            const totalPrice: number = ingredients.reduce((total: number, ingredient: IIngredient) => {
                 return total + (ingredient ? ingredient.price : 0);
             }, 0);
 
-            const extraIngredients = ingredients.length > 6 ? ingredients.length - 6 : 0;
+            const extraIngredients: number = ingredients.length > 6 ? ingredients.length - 6 : 0;
 
             return (<Link key={index} className={styles.link} state={{background: location}}
                           to={feedPersonal ? `/profile/orders/${order.number}` : `/feed/${order.number}`}

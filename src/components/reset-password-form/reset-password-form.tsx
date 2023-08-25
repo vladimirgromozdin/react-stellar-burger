@@ -9,25 +9,25 @@ function ResetPasswordForm() {
     const [tokenValue, setTokenValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const dispatch = useDispatch()
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPasswordValue(e.target.value)
     }
-    const onTokenChange = e => {
+    const onTokenChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setTokenValue(e.target.value)
     }
 
-    const handleResetPasswordClick = () => {
+    const handleResetPasswordClick = (): void => {
         dispatch(resetPassword(passwordValue, tokenValue))
     }
 
-    const handleResetPasswordFormSubmit = (e) => {
+    const handleResetPasswordFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         handleResetPasswordClick()
     }
 
     const location = useLocation()
     const navigate = useNavigate()
-    useEffect(() => {
+    useEffect(():void => {
         if (!location.state || location.state.from !== '/forgot-password') {
             navigate('/forgot-password');
         }

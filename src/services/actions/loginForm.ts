@@ -6,8 +6,8 @@ export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 export const LOGIN_ATTEMPT_SUCCESS = 'LOGIN_ATTEMPT_SUCCESS'
 export const LOGIN_ATTEMPT_FAIL = 'LOGIN_ATTEMPT_FAIL'
 
-export const loginRequest = (email, password, navigate) => {
-    return async function (dispatch) {
+export const loginRequest = (email: string, password: string, navigate: any) => {
+    return async function (dispatch: any) {
         dispatch({
             type: LOGIN_ATTEMPT
         })

@@ -10,21 +10,21 @@ function RegisterForm() {
     const [passwordValue, setPasswordValue] = useState('')
     const [nameValue, setNameValue] = useState('')
     const dispatch = useDispatch()
-    const onEmailChange = e => {
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmailValue(e.target.value)
     }
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPasswordValue(e.target.value)
     }
 
-    const onNameChange = e => {
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNameValue(e.target.value)
     }
 
-    const handleRegisterClick = () => {
+    const handleRegisterClick = (): void => {
         dispatch(registerUser(emailValue, passwordValue, nameValue))
     }
-    const handleRegisterFormSubmit = (e) => {
+    const handleRegisterFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         handleRegisterClick()
     }

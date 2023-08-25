@@ -10,7 +10,7 @@ import {addIngredientToConstructor} from "../../services/actions/burgerIngredien
 import {reorderIngredient} from "../../services/actions/burgerConstructor";
 import DraggableIngredient from "./draggable-ingredient/draggableIngredient";
 import {useNavigate} from "react-router-dom";
-import {DragItem, IIngredient} from "../../services/types";
+import {IDragItem, IIngredient} from "../../services/types";
 
 
 function BurgerConstructor() {
@@ -25,12 +25,12 @@ function BurgerConstructor() {
     );
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(item: DragItem, monitor) {
+        drop(item: IDragItem, monitor) {
             onDropHandler(item);
         }
     })
 
-    const onDropHandler = (item: DragItem) => {
+    const onDropHandler = (item: IDragItem) => {
         const {ingredient} = item;
         const isIngredientPresent = constructorIngredients.find((ing: IIngredient) => ing.uniqueId === ingredient.uniqueId);
         if (!isIngredientPresent) {
