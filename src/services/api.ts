@@ -38,7 +38,7 @@ export async function refreshToken() {
 export const checkUserAuth = () => {
   return (dispatch: AppThunk<Promise<unknown>>) => {
     if (getCookie("accessToken")) {
-      dispatch(fetchUserProfile())
+      (dispatch(fetchUserProfile()) as any)
         .then((data: IUserInfo) => {
           dispatch(setUser(data.user));
         })

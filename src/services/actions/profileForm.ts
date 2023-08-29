@@ -66,7 +66,7 @@ export type TProfileFormActions =
   | ILogoutUserRequestSuccessAction
   | ILogoutUserRequestFailAction;
 
-export const fetchUserProfile = (): Promise<any> => {
+export const fetchUserProfile = () => {
   return async function (
     dispatch: Dispatch<TProfileFormActions>,
   ): Promise<IUserInfo> {
