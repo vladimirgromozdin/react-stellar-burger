@@ -36,17 +36,20 @@ export async function refreshToken() {
 }
 
 export const checkUserAuth = () => {
-  return (dispatch: AppThunk<Promise<unknown>>) => {
-    if (getCookie("accessToken")) {
-      (dispatch(fetchUserProfile()) as any)
-        .then((data: IUserInfo) => {
-          dispatch(setUser(data.user));
-        })
-        .finally(() => {
-          dispatch(setAuthChecked(true));
-        });
-    } else {
-      dispatch(setAuthChecked(true));
+  return async (dispatch: AppThunk<Promise<unknown>>) => {
+    dispatch(setAuthChecked(false)); //
+
+    const token = getCookie("accessToken");
+
+    if (token) {
+      try {
+        const data = await fetchUserProfile(token);
+        dispatch(setUser(data.user));
+      } catch (error) {
+        // Handle the error here
+      }
     }
+
+    dispatch(setAuthChecked(true));
   };
 };

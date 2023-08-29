@@ -66,49 +66,20 @@ export type TProfileFormActions =
   | ILogoutUserRequestSuccessAction
   | ILogoutUserRequestFailAction;
 
-export const fetchUserProfile = () => {
-  return async function (
-    dispatch: Dispatch<TProfileFormActions>,
-  ): Promise<IUserInfo> {
-    const token: string | undefined = getCookie("accessToken");
-    dispatch({ type: FETCH_USER_PROFILE_REQUEST });
-    const getUserData = async (): Promise<any> => {
-      try {
-        if (token) {
-          const response = await fetch(`${api}/auth/user`, {
-            method: "GET",
-            headers: {
-              Authorization: token,
-              "Content-Type": "application/json",
-            },
-          });
-          const data = await checkResponse(response);
-          if (data && data.success) {
-            dispatch({
-              type: FETCH_USER_PROFILE_SUCCESS,
-              payload: data,
-            });
-            return data;
-          } else {
-            throw new Error(data.message || "Profile fetch failed");
-          }
-        }
-      } catch (error) {
-        const e = error as Error;
-        if (e.message === "jwt expired") {
-          const refreshedToken = await refreshToken();
-          if (refreshedToken) {
-            return getUserData();
-          } else {
-            dispatch({ type: FETCH_USER_PROFILE_FAIL, payload: error });
-          }
-        } else {
-          dispatch({ type: FETCH_USER_PROFILE_FAIL, payload: error });
-        }
-      }
-    };
-    return getUserData();
-  };
+export const fetchUserProfile = async (token: string): Promise<IUserInfo> => {
+  const response = await fetch(`${api}/auth/user`, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await checkResponse(response);
+  if (data && data.success) {
+    return data;
+  } else {
+    throw new Error(data.message || "Profile fetch failed");
+  }
 };
 
 export const updateUserProfile = (name: string, email: string) => {

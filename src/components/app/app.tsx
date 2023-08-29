@@ -20,6 +20,8 @@ import Profile from "../../pages/profile/profile";
 import OrderFeed from "../order-feed/order-feed";
 import OrderDescription from "../order-description/order-description";
 import { getCookie } from "../../services/utils";
+import { setAuthChecked, setUser } from "../../services/actions/checkAuth";
+import { fetchUserProfile } from "../../services/actions/profileForm";
 
 function App() {
   const location = useLocation();
@@ -31,7 +33,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkUserAuth());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getIngredients());
