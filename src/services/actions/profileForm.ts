@@ -67,9 +67,7 @@ export type TProfileFormActions =
   | ILogoutUserRequestFailAction;
 
 export const fetchUserProfile = () => {
-  return async function (
-    dispatch: Dispatch<TProfileFormActions> | ((dispatch: any) => void),
-  ) {
+  return async function (dispatch: Dispatch<TProfileFormActions>) {
     const token: string | undefined = getCookie("accessToken");
     dispatch({ type: FETCH_USER_PROFILE_REQUEST });
     const getUserData = async (): Promise<any> => {

@@ -1,10 +1,13 @@
 import { getCookie, setCookie } from "./utils";
 import { fetchUserProfile } from "./actions/profileForm";
 import { setAuthChecked, setUser } from "./actions/checkAuth";
+import { IUserInfo } from "./types/data";
+import { Dispatch } from "redux";
+import { TStellarBurgerAppActions } from "./types";
 
 export const api = "https://norma.nomoreparties.space/api";
 
-export const checkResponse = (res) => {
+export const checkResponse = (res: Response): Promise<any> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
@@ -34,10 +37,10 @@ export async function refreshToken() {
 }
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: Dispatch<TStellarBurgerAppActions>) => {
     if (getCookie("accessToken")) {
       dispatch(fetchUserProfile())
-        .then((data) => {
+        .then((data: IUserInfo) => {
           dispatch(setUser(data.user));
         })
         .finally(() => {

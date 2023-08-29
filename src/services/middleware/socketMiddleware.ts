@@ -1,10 +1,15 @@
+import { IAction, RootState, TStellarBurgerAppActions } from "../types";
+import { Dispatch, MiddlewareAPI } from "redux";
+
 export const socketMiddleware = () => {
-  return (store) => {
-    let socket = null;
+  return (
+    storeAPI: MiddlewareAPI<Dispatch<TStellarBurgerAppActions>, RootState>,
+  ) => {
+    let socket: WebSocket | null = null;
     let isSocketOpen = false;
 
-    return (next) => (action) => {
-      const { dispatch } = store;
+    return (next: Dispatch) => (action: IAction) => {
+      const { dispatch } = storeAPI;
       const { type, payload } = action;
 
       if (type === "WS_CONNECTION_START") {

@@ -85,6 +85,13 @@ export type TOnlyUnAuth = {
   component: ReactElement;
 };
 
+// Middleware
+
+export interface IAction {
+  type: string;
+  payload?: any;
+}
+
 export type TStellarBurgerAppActions =
   | TBurgerConstructorActions
   | TBurgerIngredientsActions
