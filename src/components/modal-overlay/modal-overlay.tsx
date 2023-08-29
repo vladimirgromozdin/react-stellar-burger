@@ -1,17 +1,13 @@
 import React from "react";
-import styles from '../modal-overlay/modal-overlay.module.css'
-import {TModalOverlayProps} from "../../services/types";
+import styles from "../modal-overlay/modal-overlay.module.css";
+import { TModalOverlayProps } from "../../services/types";
 
+function ModalOverlay({ onClose }: TModalOverlayProps) {
+  const handleOverlayClick = (): void => {
+    onClose();
+  };
 
-function ModalOverlay({onClose}: TModalOverlayProps) {
-    const handleOverlayClick = ():void => {
-        onClose();
-    };
-
-    return (
-        <div className={styles.overlay} onClick={handleOverlayClick}>
-        </div>
-    )
+  return <div className={styles.overlay} onClick={handleOverlayClick}></div>;
 }
 
-export default ModalOverlay
+export default ModalOverlay;
