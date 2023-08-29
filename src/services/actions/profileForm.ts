@@ -66,8 +66,10 @@ export type TProfileFormActions =
   | ILogoutUserRequestSuccessAction
   | ILogoutUserRequestFailAction;
 
-export const fetchUserProfile = () => {
-  return async function (dispatch: Dispatch<TProfileFormActions>) {
+export const fetchUserProfile = (): Promise<any> => {
+  return async function (
+    dispatch: Dispatch<TProfileFormActions>,
+  ): Promise<IUserInfo> {
     const token: string | undefined = getCookie("accessToken");
     dispatch({ type: FETCH_USER_PROFILE_REQUEST });
     const getUserData = async (): Promise<any> => {
@@ -190,7 +192,7 @@ export const logout = () => {
         if (e.message === "jwt expired") {
           const refreshedToken = await refreshToken();
           if (refreshedToken) {
-            logUserOut();
+            await logUserOut();
           } else {
             dispatch({ type: LOGOUT_USER_REQUEST_FAIL, payload: error });
           }
@@ -199,6 +201,6 @@ export const logout = () => {
         }
       }
     };
-    logUserOut();
+    await logUserOut();
   };
 };
