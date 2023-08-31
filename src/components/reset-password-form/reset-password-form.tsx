@@ -3,7 +3,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./reset-password-form.module.css";
 import { resetPassword } from "../../services/actions/resetPasswordForm";
 import { useDispatch } from "../../services/types/hooks";
@@ -13,10 +13,10 @@ function ResetPasswordForm() {
   const [tokenValue, setTokenValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const dispatch = useDispatch();
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value);
   };
-  const onTokenChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onTokenChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setTokenValue(e.target.value);
   };
 

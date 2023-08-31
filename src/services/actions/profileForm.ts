@@ -15,6 +15,7 @@ import {
 } from "../constants/profileForm";
 import { Dispatch } from "redux";
 import { IUserInfo } from "../types/data";
+import { AppThunk } from "../types";
 
 export interface IFetchUserProfileRequestAction {
   readonly type: typeof FETCH_USER_PROFILE_REQUEST;
@@ -129,9 +130,7 @@ export const updateUserProfile = (name: string, email: string) => {
 };
 
 export const logout = () => {
-  return async function (
-    dispatch: Dispatch<TProfileFormActions> | ((dispatch: any) => void),
-  ) {
+  return async function (dispatch: AppThunk) {
     const token = getCookie("refreshToken");
     dispatch({ type: LOGOUT_USER_REQUEST });
     const logUserOut = async () => {

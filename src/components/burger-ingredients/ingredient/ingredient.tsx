@@ -10,7 +10,6 @@ import IngredientDetails from "../../ingredient-details/ingredient-details";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import { TIngredientProps } from "../../../services/types";
-import { IIngredient } from "../../../services/types/data";
 
 function Ingredient({ ingredient }: TIngredientProps) {
   const location = useLocation();
@@ -23,7 +22,7 @@ function Ingredient({ ingredient }: TIngredientProps) {
     (store) => store.burgerConstructor.constructorIngredients,
   );
   const ingredientCounter: number = ingredientsList.filter(
-    (item: IIngredient) => item._id === ingredient._id,
+    (item) => item._id === ingredient._id,
   ).length;
   const ingredientAdded = ingredientCounter > 0;
 

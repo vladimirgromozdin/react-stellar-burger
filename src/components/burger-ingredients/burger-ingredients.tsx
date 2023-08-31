@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 import Ingredient from "./ingredient/ingredient";
 import { useSelector } from "../../services/types/hooks";
 import { IngredientType } from "../../services/types";
-import { IIngredient } from "../../services/types/data";
 
 function BurgerIngredients() {
   const [current, setCurrent] = useState("bun");
@@ -17,12 +16,7 @@ function BurgerIngredients() {
   const sauceTabRef = useRef<HTMLHeadingElement>(null);
   const mainTabRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll);
-    return () => document.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScroll = (e: any) => {
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (!bunTabRef.current || !sauceTabRef.current || !mainTabRef.current) {
       return;
     }
@@ -101,8 +95,8 @@ function BurgerIngredients() {
         </h3>
         <ul className={styles.grid}>
           {burgerIngredientsList
-            .filter((item: IIngredient) => item.type === "bun")
-            .map((ingredient: IIngredient) => (
+            .filter((item) => item.type === "bun")
+            .map((ingredient) => (
               <Ingredient key={ingredient._id} ingredient={ingredient} />
             ))}
         </ul>
@@ -115,8 +109,8 @@ function BurgerIngredients() {
         </h3>
         <ul className={styles.grid}>
           {burgerIngredientsList
-            .filter((item: IIngredient) => item.type === "sauce")
-            .map((ingredient: IIngredient) => (
+            .filter((item) => item.type === "sauce")
+            .map((ingredient) => (
               <Ingredient key={ingredient._id} ingredient={ingredient} />
             ))}
         </ul>
@@ -129,8 +123,8 @@ function BurgerIngredients() {
         </h3>
         <ul className={styles.grid}>
           {burgerIngredientsList
-            .filter((item: IIngredient) => item.type === "main")
-            .map((ingredient: IIngredient) => (
+            .filter((item) => item.type === "main")
+            .map((ingredient) => (
               <Ingredient key={ingredient._id} ingredient={ingredient} />
             ))}
         </ul>

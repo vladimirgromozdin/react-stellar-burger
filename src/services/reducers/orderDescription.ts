@@ -10,12 +10,14 @@ type TOrderDescriptionState = Readonly<{
   order: IOrder | null;
   getOrderDescription: boolean;
   getOrderDescriptionFail: boolean;
+  getOrderDescriptionDone: boolean;
 }>;
 
 const orderDescriptionInitialState: TOrderDescriptionState = {
   order: null,
   getOrderDescription: false,
   getOrderDescriptionFail: false,
+  getOrderDescriptionDone: false,
 };
 
 export const orderDescriptionReducer = (
@@ -28,11 +30,13 @@ export const orderDescriptionReducer = (
         ...state,
         getOrderDescription: true,
         getOrderDescriptionFail: false,
+        getOrderDescriptionDone: false,
       };
     case GET_ORDER_DESCRIPTION_SUCCESS:
       return {
         getOrderDescription: false,
         getOrderDescriptionFail: false,
+        getOrderDescriptionDone: true,
         order: action.payload,
       };
     case GET_ORDER_DESCRIPTION_FAIL:
@@ -40,6 +44,7 @@ export const orderDescriptionReducer = (
         ...state,
         getOrderDescription: false,
         getOrderDescriptionFail: true,
+        getOrderDescriptionDone: false,
       };
     default:
       return state;

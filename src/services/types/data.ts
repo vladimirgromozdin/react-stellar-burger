@@ -16,6 +16,10 @@ export interface IIngredient {
   uniqueId: string;
 }
 
+export interface IIngredientWithQuantity extends IIngredient {
+  quantity: number;
+}
+
 export interface IOrder {
   _id: string;
   ingredients: string[];

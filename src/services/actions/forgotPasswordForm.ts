@@ -1,10 +1,16 @@
 import { api, checkResponse } from "../api";
-import { TRequestPasswordChangeEmailOptions } from "../types";
+import {
+  AppDispatch,
+  AppThunk,
+  TRequestPasswordChangeEmailOptions,
+} from "../types";
 import {
   EMAIL_PASSWORD_RESET_LINK,
   EMAIL_PASSWORD_RESET_LINK_FAIL,
   EMAIL_PASSWORD_RESET_LINK_SUCCESS,
 } from "../constants/forgotPasswordForm";
+import { TProfileFormActions } from "./profileForm";
+import { Dispatch } from "redux";
 
 export interface IEmailPasswordResetLinkAction {
   readonly type: typeof EMAIL_PASSWORD_RESET_LINK;
@@ -28,7 +34,7 @@ export const requestPasswordChangeEmail = (
   options: TRequestPasswordChangeEmailOptions = {},
 ) => {
   const { onSuccess } = options;
-  return function (dispatch: any) {
+  return function (dispatch: Dispatch<TForgotPasswordFormActions>) {
     dispatch({
       type: EMAIL_PASSWORD_RESET_LINK,
     });

@@ -1,7 +1,6 @@
 import { getCookie, setCookie } from "./utils";
 import { fetchUserProfile } from "./actions/profileForm";
 import { setAuthChecked, setUser } from "./actions/checkAuth";
-import { IUserInfo } from "./types/data";
 import { AppThunk } from "./types";
 
 export const api = "https://norma.nomoreparties.space/api";
@@ -9,6 +8,12 @@ export const api = "https://norma.nomoreparties.space/api";
 export const checkResponse = (res: Response): Promise<any> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
+
+export async function request(url: string, options: RequestInit) {
+  const fullUrl = `${api}${url}`;
+  const response = await fetch(fullUrl, options);
+  return checkResponse(response);
+}
 
 export async function refreshToken() {
   const token = getCookie("refreshToken");

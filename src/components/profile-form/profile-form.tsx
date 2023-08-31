@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./profile-form.module.css";
 import { useDispatch, useSelector } from "../../services/types/hooks";
 import { updateUserProfile } from "../../services/actions/profileForm";
@@ -22,13 +22,13 @@ function ProfileForm() {
   const dispatch = useDispatch();
   const isModified: boolean =
     userName !== nameValue || userEmail !== emailValue;
-  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value);
   };
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value);
   };
-  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value);
   };
 

@@ -56,7 +56,7 @@ function BurgerConstructor() {
     const total: number =
       constructorIngredients.length > 0
         ? constructorIngredients.reduce(
-            (acc: number, currentItem: IIngredient) => acc + currentItem.price,
+            (acc: number, currentItem) => acc + currentItem.price,
             0,
           )
         : 0;

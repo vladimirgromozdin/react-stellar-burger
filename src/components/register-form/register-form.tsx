@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useDispatch } from "../../services/types/hooks";
 import styles from "./register-form.module.css";
 import { registerUser } from "../../services/actions/registerForm";
@@ -15,14 +15,14 @@ function RegisterForm() {
   const [passwordValue, setPasswordValue] = useState("");
   const [nameValue, setNameValue] = useState("");
   const dispatch = useDispatch();
-  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value);
   };
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value);
   };
 
-  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value);
   };
 

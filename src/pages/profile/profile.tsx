@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./profile.module.css";
 import { Link, Outlet, useMatch } from "react-router-dom";
 import { logout } from "../../services/actions/profileForm";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/types/hooks";
 
 function ProfilePage() {
   const dispatch = useDispatch();

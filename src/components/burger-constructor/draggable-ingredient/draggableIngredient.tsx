@@ -45,8 +45,10 @@ function DraggableIngredient({ ingredient }: IDraggableIngredientProps) {
   drag(dropTarget(removeIconRef));
 
   useEffect(() => {
-    const handleRemoveClick = (event: any) => {
-      const element = event.currentTarget.closest("[data-unique-id]");
+    const handleRemoveClick = (event: MouseEvent) => {
+      const element = (event.currentTarget as HTMLElement).closest(
+        "[data-unique-id]",
+      ) as HTMLElement | null;
       const uniqueId: string | undefined = element?.dataset.uniqueId;
       if (uniqueId !== undefined) {
         dispatch(removeIngredientFromConstructor(uniqueId));
@@ -56,7 +58,7 @@ function DraggableIngredient({ ingredient }: IDraggableIngredientProps) {
     const removeIcon =
       wrapper && wrapper.querySelector(".constructor-element__action");
     if (removeIcon) {
-      removeIcon.addEventListener("click", handleRemoveClick);
+      removeIcon.addEventListener("click", handleRemoveClick as EventListener);
     }
   }, [constructorIngredients, dispatch]);
   return (

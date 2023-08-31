@@ -8,6 +8,10 @@ import { useDispatch, useSelector } from "../../services/types/hooks";
 import { Link, useLocation } from "react-router-dom";
 import { TOrderFeedProps } from "../../services/types";
 import { IIngredient, IOrder } from "../../services/types/data";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../services/constants/wsActionTypes";
 
 function OrderFeed({ feedPersonal, wsUrl }: TOrderFeedProps) {
   const className = feedPersonal ? styles.feedPersonal : styles.feedGeneral;
@@ -20,9 +24,9 @@ function OrderFeed({ feedPersonal, wsUrl }: TOrderFeedProps) {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch({ type: "WS_CONNECTION_START", payload: { wsUrl } });
+    dispatch({ type: WS_CONNECTION_START, payload: { wsUrl } });
     return () => {
-      dispatch({ type: "WS_CONNECTION_CLOSED" });
+      dispatch({ type: WS_CONNECTION_CLOSED });
     };
   }, [dispatch, wsUrl]);
 

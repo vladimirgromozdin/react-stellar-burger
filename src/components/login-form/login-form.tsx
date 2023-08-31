@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import styles from "./login-form.module.css";
 import { useDispatch } from "../../services/types/hooks";
 import { loginRequest } from "../../services/actions/loginForm";
@@ -13,10 +13,10 @@ function LoginForm() {
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const dispatch = useDispatch();
-  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value);
   };
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value);
   };
   const navigate = useNavigate();

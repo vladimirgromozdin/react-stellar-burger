@@ -2,7 +2,7 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./forgot-password-form.module.css";
 import { requestPasswordChangeEmail } from "../../services/actions/forgotPasswordForm";
 import { useDispatch } from "../../services/types/hooks";
@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ForgotPasswordForm() {
   const [emailValue, setEmailValue] = useState("");
-  const onEmailChange = (e: any) => {
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
   };
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function ForgotPasswordForm() {
     );
   };
 
-  const handleFormSubmit = (e: any) => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleRecoverPasswordClick();
   };
