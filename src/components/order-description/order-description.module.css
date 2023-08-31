@@ -8,7 +8,6 @@
     position: relative;
 }
 
-
 .orderContainerModal {
     display: flex;
     flex-direction: column;
@@ -19,7 +18,7 @@
     align-content: center;
     z-index: 12;
     position: relative;
-    background-color: #1C1C21;
+    background-color: #1c1c21;
     border-radius: 40px;
 }
 
@@ -29,6 +28,7 @@
     display: flex;
     flex-direction: column;
     width: 640px;
+    height: 520px;
     margin: 0;
     align-content: center;
     z-index: 4;
@@ -73,7 +73,7 @@
     border-radius: 50%;
     object-fit: cover;
     background-color: rgba(19, 19, 22, 1);
-    border-image-source: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+    border-image-source: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -93,9 +93,8 @@
     );
 }
 
-
 .ingredientPrice {
-display: flex;
+    display: flex;
     align-items: center;
 }
 
